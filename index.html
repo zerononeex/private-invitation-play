@@ -62,32 +62,38 @@ a{color:var(--primary-ink)}
 .no-icon-sheet .icon{background:none;position:relative}
 .no-icon-sheet .icon::after{content:"";position:absolute;inset:38%;transform:rotate(45deg);background:var(--gold)}
 
-/* ===== Cover ===== */
-.cover{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;touch-action:none;display:grid;place-items:center}
-.door{--S:max(100vw,100vh);position:absolute;top:0;bottom:0;width:50.5vw;background-color:var(--ivory);background-image:var(--texture);background-size:var(--S) var(--S);background-repeat:no-repeat;transition:transform 1.4s cubic-bezier(.65,0,.25,1)}
-.door-l{left:0;background-position:calc(50vw - var(--S) / 2) center;box-shadow:inset -10px 0 24px -14px rgba(80,62,40,.35)}
-.door-r{right:0;background-position:calc(.5vw - var(--S) / 2) center;box-shadow:inset 10px 0 24px -14px rgba(80,62,40,.35)}
-.door::after{content:"";position:absolute;top:14px;bottom:14px;border:1px solid rgba(201,162,39,.65)}
-.door-l::after{left:14px;right:0;border-right:0;border-radius:24px 0 0 24px}
-.door-r::after{right:14px;left:0;border-left:0;border-radius:0 24px 24px 0}
-.cover-center{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 20px calc(24px + env(safe-area-inset-bottom));transition:transform 1.4s ease,opacity .9s ease .1s}
-.cover-art{position:relative;width:min(62vw,280px,29vh);width:min(62vw,280px,29svh);aspect-ratio:768/1376;margin-bottom:10px}
-.cover-art .art,.hero-art .art{position:absolute;inset:14% 17.5% 15% 18.5%;border-radius:999px 999px 0 0}
-.frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;filter:brightness(1.06);pointer-events:none}
+/* ===== Cover: sealed envelope =====
+   Geometry measured on envelope.png (1720×1280): flap hinge at y 2.97%,
+   flap tip (seal centre) at x 49.85% / y 66%. Polygons trace the outer
+   edge of the painted gold flap border. */
+.cover{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;touch-action:none;display:grid;grid-template-rows:auto auto auto;align-content:center;row-gap:clamp(24px,5svh,52px);justify-items:center;text-align:center;background:#FBF8F1;padding:calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
 .cover-names{font:400 clamp(2.4rem,min(12vw,7svh),3.6rem)/1.1 var(--script);color:var(--ink);margin:0}
-.cover-sub{font:500 .82rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:6px 0 20px}
-.seal{width:min(112px,15vh);height:min(112px,15vh);min-width:84px;min-height:84px;border-radius:50%;border:0;padding:0;cursor:pointer;touch-action:manipulation;color:#fff;font:500 .72rem/1.25 var(--sans);letter-spacing:.14em;text-transform:uppercase;background:radial-gradient(circle at 35% 30%,#D99173,var(--accent-ink) 70%);box-shadow:0 6px 18px rgba(154,79,51,.35),inset 0 0 0 5px rgba(255,255,255,.12);position:relative;animation:pulse 2.4s ease-in-out infinite}
-.seal::before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(255,236,200,.75)}
-.seal span{position:relative;display:block;padding:0 14px}
-@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 6px 18px rgba(154,79,51,.35),0 0 0 0 rgba(198,123,92,.45)}50%{transform:scale(1.05);box-shadow:0 6px 18px rgba(154,79,51,.35),0 0 0 16px rgba(198,123,92,0)}}
-.petal{position:absolute;left:50%;top:45%;z-index:3;width:14px;height:10px;border-radius:70% 0 70% 0;opacity:0;pointer-events:none}
-.cover.opening .door-l{transform:translateX(-102%)}
-.cover.opening .door-r{transform:translateX(102%)}
-.cover.opening .cover-center{transform:scale(1.08);opacity:0}
-.cover.opening .seal{animation:none}
-.cover.opening .petal{animation:petal 1.4s ease-out forwards;animation-delay:var(--delay)}
-@keyframes petal{0%{opacity:0;transform:translate(0,0) rotate(0)}20%{opacity:.9}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
-.cover.fading{transition:opacity .8s ease;opacity:0}
+.cover-sub{font:500 .82rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:8px 0 0}
+.env{position:relative;width:min(88vw,560px,58vh);width:min(88vw,560px,58svh);aspect-ratio:1720/1280;perspective:1200px;transform-origin:50% 70%}
+.env-body{position:relative;z-index:1;display:block;width:100%;height:100%;clip-path:inset(2.9% 0 0 0)}
+.env-inside{position:absolute;inset:0;z-index:1;visibility:hidden;clip-path:polygon(2.21% 2.97%, 4.1% 10.94%, 46.2% 64.4%, 47.6% 65.7%, 49.19% 66.7%, 50.52% 66.7%, 52.1% 65.7%, 53.5% 64.4%, 95.8% 10.94%, 97.33% 2.97%);background:linear-gradient(rgba(70,58,36,.28),rgba(70,58,36,.06) 30%,rgba(70,58,36,0) 60%),url("assets/images/envelope-lining.png") 50% 0/58% auto #EFE6D2}
+.env-flap{position:absolute;left:0;right:0;top:2.97%;height:63.28%;z-index:2;transform-origin:50% 0;transform-style:preserve-3d}
+.flap-face{position:absolute;inset:0;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden;clip-path:polygon(2.21% 0, 4.48% 12.59%, 46.57% 96.54%, 47.79% 98.52%, 49.19% 100%, 50.52% 100%, 51.98% 98.52%, 53.14% 96.54%, 95.41% 12.59%, 97.33% 0)}
+.flap-front img{position:absolute;left:0;top:-4.69%;width:100%;max-width:none;height:auto}
+.flap-back{transform:rotateX(180deg);clip-path:polygon(2.21% 100%, 4.48% 87.41%, 46.57% 3.46%, 47.79% 1.48%, 49.19% 0, 50.52% 0, 51.98% 1.48%, 53.14% 3.46%, 95.41% 87.41%, 97.33% 100%);background:linear-gradient(rgba(201,162,39,.16),rgba(201,162,39,0) 45%),url("assets/images/envelope-lining.png") 50% 100%/58% auto #EFE6D2}
+.seal{position:absolute;left:49.85%;top:66%;z-index:3;width:21%;aspect-ratio:1;container-type:inline-size;transform:translate(-50%,-50%);display:grid;place-items:center;border:0;padding:0;background:none;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 5px 8px rgba(38,46,30,.32));animation:seal-pulse 2.6s ease-in-out infinite}
+.seal::before{content:"";position:absolute;inset:-2%;transform:rotate(-12deg);border-radius:41% 59% 47% 53% / 57% 43% 58% 42%;background:radial-gradient(circle at 38% 32%,#728262,#4F5E43 72%,#435037);box-shadow:inset 0 -3px 5px rgba(0,0,0,.25),inset 0 2px 2px rgba(255,255,255,.16)}
+.seal span{position:relative;width:74%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 34%,#7B8C69,#5A6A4B 62%,#4B5A3E);box-shadow:inset 0 3px 5px rgba(0,0,0,.34),inset 0 -2px 3px rgba(255,255,255,.18);font:600 1.5rem/1 var(--serif);font-size:34cqw;letter-spacing:.01em;padding-top:2%;color:#D9B95C;text-shadow:0 1px 0 rgba(0,0,0,.4),0 -1px 0 rgba(255,236,190,.22)}
+@keyframes seal-pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
+.cover-hint{margin:0;font:500 .78rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+/* Opening timeline (total 2.9s): seal breaks 0–.35s · flap opens .3–1.3s · stillness · zoom 1.5–2.9s · fade 2.2–2.9s */
+.cover.opening .seal{animation:seal-break .35s ease-out forwards}
+.cover.opening .env-inside{animation:show 0s .3s forwards}
+.cover.opening .env-flap{animation:flap-open 1s cubic-bezier(.65,0,.35,1) .3s forwards}
+.cover.opening .env{animation:env-zoom 1.4s cubic-bezier(.55,0,.9,.4) 1.5s forwards}
+.cover.opening .cover-head,.cover.opening .cover-hint{animation:fade-out .4s ease .3s forwards}
+.cover.opening{animation:fade-out .7s ease-in 2.2s forwards}
+@keyframes seal-break{to{transform:translate(-50%,-50%) scale(1.18);opacity:0;filter:blur(3px)}}
+@keyframes flap-open{0%{transform:rotateX(0);z-index:2}50%{z-index:2}50.01%,100%{z-index:0}100%{transform:rotateX(-180deg)}}
+@keyframes env-zoom{to{transform:scale(2.3)}}
+@keyframes fade-out{to{opacity:0}}
+@keyframes show{to{visibility:visible}}
+.cover.fading{transition:opacity .4s ease;opacity:0}
 
 /* ===== Music button ===== */
 .music-btn{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:50;width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,162,39,.6);background:rgba(255,253,248,.9);color:var(--primary-ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
@@ -97,6 +103,8 @@ a{color:var(--primary-ink)}
 .music-btn[aria-pressed="false"] .i-pause{display:none}
 
 /* ===== Hero ===== */
+.hero-art .art{position:absolute;inset:14% 17.5% 15% 18.5%;border-radius:999px 999px 0 0}
+.frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;filter:brightness(1.06);pointer-events:none}
 .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:64px 0 48px;text-align:center}
 .hero-art{position:relative;width:min(70vw,300px);aspect-ratio:768/1376;margin:0 auto 24px}
 .names{font:400 clamp(3rem,15vw,4.6rem)/1.05 var(--script);margin:.1em 0 .2em}
@@ -228,7 +236,7 @@ input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;bo
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
   .reveal,.rise{transform:none!important}
-  .cover.fading{transition:opacity .8s ease!important}
+  .cover.fading{transition:opacity .4s ease!important}
 }
 @media (prefers-reduced-motion:no-preference){html:not(.locked){scroll-behavior:smooth}}
 </style>
@@ -236,19 +244,22 @@ input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;bo
 <body>
 <noscript><p style="padding:24px;text-align:center">Please enable JavaScript to open this invitation.</p></noscript>
 
-<!-- Tap-to-open cover: only thing visible on load; removed from the DOM after opening -->
+<!-- Tap-to-open envelope cover: only thing visible on load; removed from the DOM after opening -->
 <div id="cover" class="cover">
-  <div class="door door-l" aria-hidden="true"></div>
-  <div class="door door-r" aria-hidden="true"></div>
-  <div class="cover-center">
-    <div class="cover-art">
-      <span class="art"><img id="cover-img" alt="Watercolor portrait of the couple" fetchpriority="high"></span>
-      <img id="cover-frame" class="frame" alt="">
-    </div>
+  <div class="cover-head">
     <p class="cover-names" id="cover-names"></p>
     <p class="cover-sub" id="cover-sub"></p>
-    <button type="button" class="seal" id="seal"><span>Tap to Open</span></button>
   </div>
+  <div class="env">
+    <img class="env-body" id="env-body" alt="A sealed ivory envelope with a gold-edged flap" fetchpriority="high">
+    <div class="env-inside" aria-hidden="true"></div>
+    <div class="env-flap" aria-hidden="true">
+      <div class="flap-face flap-front"><img id="env-flap-img" alt=""></div>
+      <div class="flap-face flap-back"></div>
+    </div>
+    <button type="button" class="seal" id="seal" aria-label="Open the invitation"><span id="seal-initials" aria-hidden="true"></span></button>
+  </div>
+  <p class="cover-hint">Tap the seal to open</p>
 </div>
 
 <button type="button" class="music-btn" id="music-btn" hidden aria-pressed="true" aria-label="Pause music">
@@ -306,6 +317,7 @@ input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;bo
 const DEFAULT_CONTENT = {
   version: 1,
   names: { partner1: "Jane", partner1Full: "Jane Doe", partner2: "John", partner2Full: "John Smith" },
+  monogram: "JJ",
   date: "2027-01-01",
   time: "15:30",
   endTime: "23:00",
@@ -369,7 +381,7 @@ const RSVP_KEY = "private-invitation-rsvps-v1";
 const PASS_HASH = "1nojb19"; // demo lock (see README) — device-level only
 
 const IMAGE_SLOTS = [
-  ["cover-couple", "Cover & hero couple portrait"], ["cover-arch-frame", "Cover arch frame"],
+  ["cover-couple", "Hero couple portrait"], ["cover-arch-frame", "Hero arch frame"],
   ["venue", "Venue"], ["story-meet", "Story 1 image"], ["story-travel", "Story 2 image"],
   ["story-proposal", "Story 3 image"], ["reception", "Reception"], ["timeline-divider", "Timeline divider"],
   ["dress-code", "Dress code"], ["welcome-party", "Welcome party"], ["first-dance", "First dance break"],
@@ -504,8 +516,8 @@ function render() {
   document.title = `${couple()} — Wedding Invitation`;
 
   if (document.body.contains(cover)) {
-    $("#cover-img").src = imgSrc("cover-couple");
-    $("#cover-frame").src = imgSrc("cover-arch-frame");
+    $("#env-body").src = $("#env-flap-img").src = imgSrc("envelope");
+    $("#seal-initials").textContent = String(C.monogram).slice(0, 3);
     $("#cover-names").textContent = couple();
     $("#cover-sub").textContent = [shortDate, C.venue.city].filter(Boolean).join(" · ");
   }
@@ -794,23 +806,23 @@ function unlockPage() {
   document.body.classList.add("opened");
   updateMusicBtn();
 }
+const OPEN_MS = 2900, REVEAL_MS = 2200, FADE_MS = 400; // keep in step with the CSS timeline
+let openTimer, revealTimer;
+function finishOpening() {
+  clearTimeout(openTimer); clearTimeout(revealTimer);
+  unlockPage();
+  $("#hero-h").focus({ preventScroll: true });
+}
 function openInvitation() {
-  if (opened) return;
+  if (opened) { if (document.body.contains(cover)) finishOpening(); return; } // a second tap skips to the end
   opened = true;
   if (musicOK !== false) playWithFade(2); // inside the tap handler = the user gesture browsers require
-  const fade = reduceMotion();
+  document.activeElement.blur();
   cover.setAttribute("aria-hidden", "true");
-  cover.classList.add(fade ? "fading" : "opening");
-  setTimeout(() => { unlockPage(); $("#hero-h").focus({ preventScroll: true }); }, fade ? 800 : 1400);
-}
-function addPetals() {
-  const colours = ["#F2C4A0", "#C67B5C", "#8A9A7B", "#E8B9A0", "#C9A227", "#7D9DBD"];
-  for (let i = 0; i < 16; i++) {
-    const p = document.createElement("span"), a = (i / 16) * Math.PI * 2, d = 140 + Math.random() * 180;
-    p.className = "petal"; p.setAttribute("aria-hidden", "true");
-    p.style.cssText = `background:${colours[i % colours.length]};--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d + 120}px;--r:${Math.round(Math.random() * 540 - 270)}deg;--delay:${Math.random() * 250}ms`;
-    cover.append(p);
-  }
+  if (reduceMotion()) { cover.classList.add("fading"); openTimer = setTimeout(finishOpening, FADE_MS); return; }
+  cover.classList.add("opening");
+  revealTimer = setTimeout(() => document.body.classList.add("opened"), REVEAL_MS); // hero rises as the envelope fades
+  openTimer = setTimeout(finishOpening, OPEN_MS);
 }
 cover.addEventListener("click", openInvitation);
 
@@ -859,12 +871,12 @@ function el(tag, attrs = {}, ...kids) {
   n.append(...kids); return n;
 }
 let fieldSeq = 0;
-function field(label, path, type = "text", options) {
+function field(label, path, type = "text", options, attrs = {}) {
   const id = "ed-f" + (++fieldSeq), wrap = el("div", { class: "field" });
   let inp;
   if (type === "textarea") inp = el("textarea", { id });
   else if (type === "select") { inp = el("select", { id }); options.forEach(([v, l]) => inp.append(el("option", { value: v, text: l }))); }
-  else inp = el("input", { id, type });
+  else inp = el("input", { id, type, ...attrs });
   if (type === "checkbox") {
     inp.checked = !!getPath(path);
     wrap.className = "ed-check"; wrap.append(inp, el("label", { for: id, text: label }));
@@ -948,6 +960,7 @@ function buildEditor() {
     group("names", "Names, date & venue",
       row(field("Partner 1 (short)", "names.partner1"), field("Partner 1 full name", "names.partner1Full")),
       row(field("Partner 2 (short)", "names.partner2"), field("Partner 2 full name", "names.partner2Full")),
+      field("Cover monogram initials", "monogram", "text", null, { maxlength: 3, autocapitalize: "characters" }),
       row(field("Wedding date", "date", "date"), field("Ceremony time", "time", "time")),
       row(field("Party ends", "endTime", "time"), field("Venue time zone (e.g. America/Los_Angeles)", "timezone")),
       field("Venue name", "venue.name"), field("Street address", "venue.address"), field("City / area", "venue.city"),
@@ -1014,7 +1027,7 @@ render();
 rendered = true;
 if (new URLSearchParams(location.search).has("edit")) {
   opened = true; unlockPage(); requestEditor(); // skip the cover, no autoplay
-} else addPetals();
+}
 })();
 </script>
 </body>

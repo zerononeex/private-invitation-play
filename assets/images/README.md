@@ -11,3 +11,9 @@ JPEG data under these .png names is fine (browsers detect the real format). Any 
 
 icon-sheet.png must be a 4 columns × 3 rows grid with evenly sized cells, in this order:
 rings, ceremony arch, cocktail, dinner plate / cake, music/dance, dress, suit / hotel, gift, envelope, calendar-heart.
+
+Envelope cover (in addition to the 17):
+- `envelope.png` — the sealed envelope on the tap-to-open cover. Cropped to the envelope; the flap clip and
+  seal position in `index.html` are measured on this exact image (hinge y 2.97%, tip x 49.85% / y 66%),
+  so a replacement envelope needs those numbers re-measured.
+- `envelope-lining.png` — the patterned liner shown inside the flap and pocket when the envelope opens.
