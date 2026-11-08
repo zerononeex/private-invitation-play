@@ -1,10 +1,1021 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Private Invitation</title>
-<style>body{margin:0;font-family:Georgia,serif;background:#FBF7EE;color:#3E4A3D;display:flex;min-height:100vh;align-items:center;justify-content:center;text-align:center;padding:24px}h1{font-weight:normal;letter-spacing:.04em}.card{max-width:420px}p{line-height:1.6;color:#6B7A67}</style>
-</head><body><div class="card">
-<h1>Jane &amp; John</h1>
-<p>January 1, 2027</p>
-<p>A digital wedding invitation demo is being prepared here.<br>Please check back soon.</p>
-</div></body></html>
+<html lang="en" class="locked">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jane &amp; John — Wedding Invitation</title>
+<meta name="description" content="You're invited — tap to open our wedding invitation.">
+<meta name="theme-color" content="#FBF7EE">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#FBF7EE; --paper:#FFFDF8; --ink:#3B362F; --muted:#625A4F; --line:#E4DCCB;
+  --primary:#8A9A7B; --primary-ink:#55624A; --accent:#C67B5C; --accent-ink:#9A4F33;
+  --gold:#C9A227; --gold-ink:#7E6414;
+  --texture:none; --icon-sheet:none;
+  --serif:"Cormorant Garamond",Georgia,"Times New Roman",serif;
+  --script:"Pinyon Script","Snell Roundhand",cursive;
+  --sans:"Jost",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --radius:18px; --shadow:0 10px 30px rgba(80,62,40,.10);
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--ivory);-webkit-text-size-adjust:100%}
+html.locked,html.locked body{overflow:hidden;height:100%}
+body{margin:0;font:400 1.0625rem/1.65 var(--sans);color:var(--ink);overflow-x:hidden;position:relative}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:var(--texture);background-size:cover;background-position:center;background-repeat:no-repeat;opacity:.55}
+img{max-width:100%;display:block}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.15;margin:0 0 .5em;color:var(--ink)}
+h2{font-size:clamp(2rem,7vw,2.75rem)}
+h3{font-size:1.5rem}
+p{margin:0 0 1em}
+a{color:var(--primary-ink)}
+:focus-visible{outline:3px solid var(--accent-ink);outline-offset:3px;border-radius:6px}
+[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.section{padding:72px 0;position:relative}
+.eyebrow{font:500 .8rem/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:.6em}
+.center{text-align:center}
+.ornament{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 18px;color:var(--gold)}
+.ornament::before,.ornament::after{content:"";height:1px;width:56px;background:currentColor;opacity:.7}
+.ornament span{width:8px;height:8px;transform:rotate(45deg);border:1px solid currentColor}
+.lead{font-family:var(--serif);font-size:1.3rem;line-height:1.5}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 24px;border-radius:999px;border:1px solid var(--primary-ink);background:var(--primary-ink);color:#fff;font:500 .95rem/1.2 var(--sans);letter-spacing:.06em;text-decoration:none;cursor:pointer;touch-action:manipulation}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--primary-ink)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.card{background:rgba(255,253,248,.88);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)}
+
+/* Art slots: placeholder wash shows if an image file is missing */
+.art{display:block;position:relative;overflow:hidden;border-radius:var(--radius);background:linear-gradient(135deg,#E9EDE3,#F6E3D3 55%,#E3EAF1)}
+.art img{width:100%;height:100%;object-fit:cover}
+.art.missing img{opacity:0}
+.art.missing::after{content:"";position:absolute;inset:14%;border:1px solid rgba(201,162,39,.5);border-radius:999px 999px 8px 8px}
+.arch{border-radius:999px 999px var(--radius) var(--radius)}
+
+/* Icons: one sheet, 4 columns × 3 rows, cropped with background-position */
+.icon{display:inline-block;flex:none;height:56px;width:calc(56px * var(--icon-ratio,1));background-image:var(--icon-sheet);background-size:400% 300%;background-repeat:no-repeat}
+.no-icon-sheet .icon{background:none;position:relative}
+.no-icon-sheet .icon::after{content:"";position:absolute;inset:38%;transform:rotate(45deg);background:var(--gold)}
+
+/* ===== Cover ===== */
+.cover{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;touch-action:none;display:grid;place-items:center}
+.door{--S:max(100vw,100vh);position:absolute;top:0;bottom:0;width:50.5vw;background-color:var(--ivory);background-image:var(--texture);background-size:var(--S) var(--S);background-repeat:no-repeat;transition:transform 1.4s cubic-bezier(.65,0,.25,1)}
+.door-l{left:0;background-position:calc(50vw - var(--S) / 2) center;box-shadow:inset -10px 0 24px -14px rgba(80,62,40,.35)}
+.door-r{right:0;background-position:calc(.5vw - var(--S) / 2) center;box-shadow:inset 10px 0 24px -14px rgba(80,62,40,.35)}
+.door::after{content:"";position:absolute;top:14px;bottom:14px;border:1px solid rgba(201,162,39,.65)}
+.door-l::after{left:14px;right:0;border-right:0;border-radius:24px 0 0 24px}
+.door-r::after{right:14px;left:0;border-left:0;border-radius:0 24px 24px 0}
+.cover-center{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px 20px calc(24px + env(safe-area-inset-bottom));transition:transform 1.4s ease,opacity .9s ease .1s}
+.cover-art{position:relative;width:min(62vw,280px,29vh);width:min(62vw,280px,29svh);aspect-ratio:768/1376;margin-bottom:10px}
+.cover-art .art,.hero-art .art{position:absolute;inset:14% 17.5% 15% 18.5%;border-radius:999px 999px 0 0}
+.frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply;filter:brightness(1.06);pointer-events:none}
+.cover-names{font:400 clamp(2.4rem,min(12vw,7svh),3.6rem)/1.1 var(--script);color:var(--ink);margin:0}
+.cover-sub{font:500 .82rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:6px 0 20px}
+.seal{width:min(112px,15vh);height:min(112px,15vh);min-width:84px;min-height:84px;border-radius:50%;border:0;padding:0;cursor:pointer;touch-action:manipulation;color:#fff;font:500 .72rem/1.25 var(--sans);letter-spacing:.14em;text-transform:uppercase;background:radial-gradient(circle at 35% 30%,#D99173,var(--accent-ink) 70%);box-shadow:0 6px 18px rgba(154,79,51,.35),inset 0 0 0 5px rgba(255,255,255,.12);position:relative;animation:pulse 2.4s ease-in-out infinite}
+.seal::before{content:"";position:absolute;inset:8px;border-radius:50%;border:1px dashed rgba(255,236,200,.75)}
+.seal span{position:relative;display:block;padding:0 14px}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 6px 18px rgba(154,79,51,.35),0 0 0 0 rgba(198,123,92,.45)}50%{transform:scale(1.05);box-shadow:0 6px 18px rgba(154,79,51,.35),0 0 0 16px rgba(198,123,92,0)}}
+.petal{position:absolute;left:50%;top:45%;z-index:3;width:14px;height:10px;border-radius:70% 0 70% 0;opacity:0;pointer-events:none}
+.cover.opening .door-l{transform:translateX(-102%)}
+.cover.opening .door-r{transform:translateX(102%)}
+.cover.opening .cover-center{transform:scale(1.08);opacity:0}
+.cover.opening .seal{animation:none}
+.cover.opening .petal{animation:petal 1.4s ease-out forwards;animation-delay:var(--delay)}
+@keyframes petal{0%{opacity:0;transform:translate(0,0) rotate(0)}20%{opacity:.9}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+.cover.fading{transition:opacity .8s ease;opacity:0}
+
+/* ===== Music button ===== */
+.music-btn{position:fixed;top:calc(12px + env(safe-area-inset-top));right:12px;z-index:50;width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,162,39,.6);background:rgba(255,253,248,.9);color:var(--primary-ink);display:grid;place-items:center;cursor:pointer;box-shadow:var(--shadow);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.music-btn svg{width:20px;height:20px}
+.music-btn .i-play{display:none}
+.music-btn[aria-pressed="false"] .i-play{display:block}
+.music-btn[aria-pressed="false"] .i-pause{display:none}
+
+/* ===== Hero ===== */
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:64px 0 48px;text-align:center}
+.hero-art{position:relative;width:min(70vw,300px);aspect-ratio:768/1376;margin:0 auto 24px}
+.names{font:400 clamp(3rem,15vw,4.6rem)/1.05 var(--script);margin:.1em 0 .2em}
+.hero .full-names{font-family:var(--serif);font-size:1.25rem;font-style:italic;color:var(--muted)}
+.hero .when{font:500 .9rem/1.6 var(--sans);letter-spacing:.16em;text-transform:uppercase;margin:16px 0 4px}
+.rise{opacity:0;transform:translateY(22px)}
+.opened .rise{opacity:1;transform:none;transition:opacity 1s ease,transform 1s ease;transition-delay:calc(var(--d,0) * 120ms)}
+.countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:420px;margin:28px auto 0}
+.countdown div{background:rgba(255,253,248,.85);border:1px solid var(--line);border-radius:14px;padding:12px 4px}
+.countdown b{display:block;font:500 clamp(1.6rem,7vw,2.2rem)/1 var(--serif);color:var(--primary-ink)}
+.countdown span{font:500 .68rem/1.4 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.just-married{grid-column:1/-1;font:400 2.4rem/1.2 var(--script);color:var(--accent-ink);margin:0}
+
+/* ===== Reveal on scroll ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ===== Story ===== */
+.chapter{display:grid;gap:20px;margin-top:44px;align-items:center}
+.chapter .art{aspect-ratio:1}
+.chapter-no{font:400 2rem/1 var(--script);color:var(--accent-ink);display:block;margin-bottom:6px}
+@media (min-width:760px){
+  .chapter{grid-template-columns:1fr 1fr;gap:40px}
+  .chapter:nth-child(even) .art{order:2}
+}
+
+/* ===== Details ===== */
+.details-grid{display:grid;gap:16px;margin:28px 0}
+@media (min-width:640px){.details-grid{grid-template-columns:1fr 1fr}}
+.venue-art{aspect-ratio:16/10;margin:28px 0}
+.palette{display:flex;flex-wrap:wrap;justify-content:center;gap:16px 20px;margin:12px 0 0;padding:0;list-style:none}
+.palette li{display:flex;flex-direction:column;align-items:center;gap:6px;width:76px;font-size:.78rem;line-height:1.3;color:var(--muted);text-align:center}
+.dot{width:44px;height:44px;border-radius:50%;box-shadow:inset 0 0 0 3px rgba(255,255,255,.55),0 2px 6px rgba(0,0,0,.12)}
+
+/* ===== Timeline ===== */
+.divider{max-width:520px;margin:0 auto 24px;background:none;border-radius:0}
+.divider img{height:auto;object-fit:contain}
+.divider.missing{height:24px}
+.reception-art{aspect-ratio:16/10;margin:8px 0 32px}
+.timeline{list-style:none;margin:0 auto;padding:0;max-width:520px;position:relative}
+.timeline::before{content:"";position:absolute;left:33px;top:10px;bottom:10px;width:1px;background:linear-gradient(var(--gold),var(--primary))}
+.timeline li{display:flex;align-items:center;gap:18px;padding:10px 0;position:relative}
+.timeline .icon-wrap{width:68px;height:68px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;flex:none;position:relative}
+.timeline time{display:block;font:500 .82rem/1.3 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink)}
+.timeline strong{font:500 1.35rem/1.25 var(--serif)}
+
+/* ===== Misc sections ===== */
+.split{display:grid;gap:24px;align-items:center}
+@media (min-width:700px){.split{grid-template-columns:1fr 1fr;gap:40px}}
+.split .art{aspect-ratio:3/4}
+.icons-inline{display:flex;gap:10px;margin-bottom:12px}
+.events{display:grid;gap:20px;margin-top:28px}
+@media (min-width:700px){.events{grid-template-columns:1fr 1fr}}
+.event{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.event .art{aspect-ratio:16/10;border-radius:0}
+.event-body{padding:22px;display:flex;flex-direction:column;gap:6px;flex:1}
+.event-body .btn{margin-top:auto;align-self:flex-start}
+.meta{font:500 .85rem/1.5 var(--sans);letter-spacing:.06em;color:var(--muted);margin:0}
+.hotels{display:grid;gap:16px;margin:24px 0}
+.hotel h3{margin-bottom:.2em}
+.code{display:inline-block;margin-top:6px;padding:4px 10px;border-radius:8px;background:#F3EAD6;font:500 .85rem/1.4 var(--sans);letter-spacing:.08em;color:var(--gold-ink)}
+.notes{margin:0;padding-left:1.2em}
+.notes li{margin-bottom:.35em}
+.wide-art{aspect-ratio:16/9;margin:24px 0}
+.gifts-art{aspect-ratio:1;max-width:420px;margin:24px auto}
+.break{position:relative;padding:0;margin:0}
+.break .art{border-radius:0;height:min(72vh,600px);background-color:#D9DDD2}
+.break figcaption{position:absolute;left:0;right:0;bottom:0;padding:80px 20px 36px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(35,28,22,.72))}
+.break figcaption p{font:400 clamp(2.4rem,10vw,3.4rem)/1.1 var(--script);margin:0}
+
+/* ===== RSVP ===== */
+.rsvp-art{width:min(70vw,260px);aspect-ratio:1;margin:0 auto 20px;background:none}
+.rsvp-art img{object-fit:contain}
+form .field{margin-bottom:18px}
+label,.label{display:block;font:500 .9rem/1.4 var(--sans);margin-bottom:6px}
+.hint{display:block;font-size:.85rem;color:var(--muted);font-weight:400}
+input[type=text],input[type=email],input[type=date],input[type=time],input[type=url],select,textarea{width:100%;min-height:48px;padding:10px 14px;border:1px solid #CFC5B1;border-radius:12px;background:#fff;font:400 1rem/1.4 var(--sans);color:var(--ink)}
+textarea{min-height:96px;resize:vertical}
+.choices{display:flex;gap:10px;flex-wrap:wrap}
+.choice{flex:1 1 140px;position:relative}
+.choice input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.choice span{display:flex;align-items:center;justify-content:center;min-height:48px;padding:10px;border:1px solid #CFC5B1;border-radius:12px;background:#fff;text-align:center}
+.choice input:checked+span{border-color:var(--primary-ink);background:var(--primary-ink);color:#fff}
+.choice input:focus-visible+span{outline:3px solid var(--accent-ink);outline-offset:3px}
+.error{display:block;color:#A3361C;font-size:.88rem;margin-top:6px}
+.error:empty{display:none}
+[aria-invalid=true]{border-color:#A3361C!important}
+.form-note{font-size:.85rem;color:var(--muted);text-align:center;margin:14px 0 0}
+.thanks{text-align:center}
+.thanks h3{font:400 2.4rem/1.2 var(--script);color:var(--accent-ink)}
+
+/* ===== Closing / footer ===== */
+.closing .art{width:min(80vw,380px);aspect-ratio:4/5;margin:0 auto 28px}
+.closing .names{font-size:clamp(2.6rem,12vw,3.6rem)}
+footer{padding:24px 20px calc(16px + env(safe-area-inset-bottom));text-align:center;font-size:.8rem;color:var(--muted)}
+.login-link{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;color:var(--muted);font-size:.75rem;letter-spacing:.08em}
+.edit-pill{position:fixed;left:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;min-height:44px;font-size:.85rem;padding:10px 18px}
+
+/* ===== Dialogs: passcode + editor ===== */
+dialog{border:0;padding:0;color:var(--ink)}
+dialog::backdrop{background:rgba(40,32,24,.55)}
+.pass{width:min(92vw,380px);border-radius:var(--radius);padding:28px 24px;background:var(--paper)}
+.pass h2{font-size:1.9rem}
+.editor{width:100%;max-width:100%;height:100%;max-height:100%;margin:0;background:#F7F4EC;overflow:hidden}
+.editor[open]{display:flex;flex-direction:column}
+.ed-head{background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+.ed-head h2{font-size:1.6rem;margin:0}
+.ed-honest{font-size:.85rem;color:var(--muted);margin:2px 0 10px}
+.ed-actions{display:flex;flex-wrap:wrap;gap:8px}
+.ed-actions .btn{min-height:44px;padding:8px 16px;font-size:.85rem}
+.ed-status{font-size:.85rem;margin:8px 0 0;color:var(--primary-ink);min-height:1.3em}
+.ed-status.bad{color:#A3361C}
+.ed-body{flex:1;overflow:auto;padding:16px;-webkit-overflow-scrolling:touch}
+.ed-body details{background:#fff;border:1px solid var(--line);border-radius:14px;margin:0 auto 12px;max-width:760px}
+.ed-body summary{cursor:pointer;min-height:48px;display:flex;align-items:center;padding:0 16px;font:500 1.05rem/1.3 var(--sans)}
+.ed-group{padding:4px 16px 16px}
+.ed-group .field{margin-bottom:14px}
+.ed-item{border:1px dashed #D5CBB6;border-radius:12px;padding:12px;margin-bottom:12px}
+.ed-row{display:grid;gap:10px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.ed-row input,.ed-row select{min-width:0}
+.ed-check{display:flex;align-items:center;gap:10px;min-height:44px;margin:0}
+.ed-check input{width:22px;height:22px}
+input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;border-radius:10px;background:#fff}
+.ed-img{display:grid;grid-template-columns:72px 1fr;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid #EFE8DA}
+.ed-img .art{width:72px;height:72px;border-radius:10px}
+.ed-img .art img{object-fit:contain;background:#fff}
+.ed-small{min-height:44px;padding:6px 14px;font-size:.82rem}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .reveal,.rise{transform:none!important}
+  .cover.fading{transition:opacity .8s ease!important}
+}
+@media (prefers-reduced-motion:no-preference){html:not(.locked){scroll-behavior:smooth}}
+</style>
+</head>
+<body>
+<noscript><p style="padding:24px;text-align:center">Please enable JavaScript to open this invitation.</p></noscript>
+
+<!-- Tap-to-open cover: only thing visible on load; removed from the DOM after opening -->
+<div id="cover" class="cover">
+  <div class="door door-l" aria-hidden="true"></div>
+  <div class="door door-r" aria-hidden="true"></div>
+  <div class="cover-center">
+    <div class="cover-art">
+      <span class="art"><img id="cover-img" alt="Watercolor portrait of the couple" fetchpriority="high"></span>
+      <img id="cover-frame" class="frame" alt="">
+    </div>
+    <p class="cover-names" id="cover-names"></p>
+    <p class="cover-sub" id="cover-sub"></p>
+    <button type="button" class="seal" id="seal"><span>Tap to Open</span></button>
+  </div>
+</div>
+
+<button type="button" class="music-btn" id="music-btn" hidden aria-pressed="true" aria-label="Pause music">
+  <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+  <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+</button>
+<audio id="bgm" src="assets/music/song.mp3" loop preload="metadata"></audio>
+
+<main id="app" inert></main>
+
+<footer id="footer">
+  <p id="footer-line"></p>
+  <a href="#couple-login" class="login-link" id="login-link">Couple Login</a>
+</footer>
+
+<button type="button" class="btn edit-pill" id="edit-pill" hidden>Back to editor</button>
+
+<dialog class="pass" id="pass-dialog" aria-labelledby="pass-h">
+  <form id="pass-form" novalidate>
+    <h2 id="pass-h">Couple Login</h2>
+    <div class="field">
+      <label for="pass-input">Passcode</label>
+      <input type="password" id="pass-input" inputmode="numeric" autocomplete="off" aria-describedby="pass-err">
+      <span class="error" id="pass-err" role="alert"></span>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn ghost" id="pass-cancel">Cancel</button>
+      <button type="submit" class="btn">Unlock</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog class="editor" id="editor" aria-labelledby="ed-h">
+  <div class="ed-head">
+    <h2 id="ed-h">Edit your invitation</h2>
+    <p class="ed-honest">Demo lock only — your edits save on this device.</p>
+    <div class="ed-actions">
+      <button type="button" class="btn" id="ed-preview">Preview as guest</button>
+      <button type="button" class="btn ghost" id="ed-export">Export my version</button>
+      <label class="btn ghost" for="ed-import">Import</label>
+      <input type="file" id="ed-import" accept="application/json,.json" class="sr-only">
+      <button type="button" class="btn ghost" id="ed-reset">Reset to demo</button>
+    </div>
+    <p class="ed-status" id="ed-status" role="status"></p>
+  </div>
+  <div class="ed-body" id="ed-body"></div>
+</dialog>
+
+<script>
+/* ============================================================
+   ALL PAGE CONTENT LIVES HERE. The page renders from this object.
+   A saved copy in localStorage (private-invitation-content-v1)
+   overrides it on this device; the Couple Login editor writes it.
+   ============================================================ */
+const DEFAULT_CONTENT = {
+  version: 1,
+  names: { partner1: "Jane", partner1Full: "Jane Doe", partner2: "John", partner2Full: "John Smith" },
+  date: "2027-01-01",
+  time: "15:30",
+  endTime: "23:00",
+  timezone: "America/Los_Angeles",
+  venue: { name: "Villa Serenità", address: "123 Olive Grove Lane", city: "Napa Valley" },
+  theme: { primary: "#8A9A7B", accent: "#C67B5C" },
+  palette: [
+    { name: "Sage Green", hex: "#8A9A7B" },
+    { name: "Dusty Blue", hex: "#7D9DBD" },
+    { name: "Terracotta", hex: "#C67B5C" },
+    { name: "Soft Peach", hex: "#F2C4A0" },
+    { name: "Gold", hex: "#C9A227" }
+  ],
+  story: [
+    { title: "How We Met", image: "story-meet",
+      text: "It started with two coffees in a little corner cafe one rainy autumn afternoon in 2022. One conversation turned into three refills, and we talked until the staff were stacking chairs around us. We both walked home that night already hoping for a second date." },
+    { title: "Us, Travelling", image: "story-travel",
+      text: "On a winding coastal trip — salt in our hair, maps we never really followed — we realised how easy it was to simply be together. Somewhere between the cliffs and the sea, we decided we wanted forever to feel exactly like that." },
+    { title: "The Proposal", image: "story-proposal",
+      text: "At sunset in a quiet garden, John got down on one knee with a speech he had practised for weeks. Jane said yes before he had even finished asking. We still laugh about the half of the speech nobody got to hear." }
+  ],
+  timeline: [
+    { time: "15:30", label: "Ceremony", icon: "arch" },
+    { time: "16:30", label: "Cocktails & Photos", icon: "cocktail" },
+    { time: "18:00", label: "Dinner", icon: "dinner" },
+    { time: "19:30", label: "First Dance", icon: "rings" },
+    { time: "20:30", label: "Cake", icon: "cake" },
+    { time: "21:00", label: "Dancing & Party", icon: "music" },
+    { time: "23:00", label: "Last Song / End", icon: "calendar" }
+  ],
+  dressCode: "Garden Formal — suits and long or midi dresses. Our palette is sage, dusty blue, terracotta and peach if you'd like to match the day. Please avoid white/ivory. The ceremony is on grass — block heels or flats recommended.",
+  events: [
+    { title: "Welcome Party", date: "2026-12-31", time: "19:00", endTime: "22:00",
+      place: "The Rooftop at Hotel Olive Grove, Napa Valley", image: "welcome-party",
+      description: "Rooftop cocktails to ring in the new year together the night before the wedding. Come as you are — we just want to hug you." },
+    { title: "Day-After Brunch", date: "2027-01-02", time: "10:30", endTime: "12:30",
+      place: "Villa Serenità, 123 Olive Grove Lane, Napa Valley", image: "",
+      description: "Coffee, pastries and one more slow morning together at the villa before everyone heads home." }
+  ],
+  hotels: [
+    { name: "Hotel Olive Grove", distance: "0.5 mi from the villa", price: "From $189/night", note: "Booking code JANEJOHN", url: "" },
+    { name: "The Vineyard Inn", distance: "2 mi from the villa", price: "From $139/night", note: "", url: "" }
+  ],
+  travel: "Free parking at the villa.\nShuttle leaves Hotel Olive Grove at 2:45 PM.\nReturn shuttles run from 9:00 PM to 11:30 PM.",
+  registry: [
+    { label: "Registry — Home Store", url: "#" },
+    { label: "Registry — Kitchen Store", url: "#" }
+  ],
+  giftsNote: "Your presence is the real gift. If you'd like to give more, our registries are below, and a wishing well will be at the reception.",
+  rsvp: { deadline: "2026-12-01", plusOne: true, meal: true, allergies: true, song: true },
+  closing: "We can't wait to celebrate with you",
+  images: {}
+};
+</script>
+<script>
+(() => {
+"use strict";
+
+const CONTENT_KEY = "private-invitation-content-v1";
+const RSVP_KEY = "private-invitation-rsvps-v1";
+const PASS_HASH = "1nojb19"; // demo lock (see README) — device-level only
+
+const IMAGE_SLOTS = [
+  ["cover-couple", "Cover & hero couple portrait"], ["cover-arch-frame", "Cover arch frame"],
+  ["venue", "Venue"], ["story-meet", "Story 1 image"], ["story-travel", "Story 2 image"],
+  ["story-proposal", "Story 3 image"], ["reception", "Reception"], ["timeline-divider", "Timeline divider"],
+  ["dress-code", "Dress code"], ["welcome-party", "Welcome party"], ["first-dance", "First dance break"],
+  ["hotel", "Where to stay"], ["rsvp-envelope", "RSVP envelope"], ["gifts", "Gifts"],
+  ["closing-couple", "Closing couple"], ["background-texture", "Background texture"], ["icon-sheet", "Icon sheet (4 × 3 grid)"]
+];
+const ALPHA_SLOTS = ["cover-arch-frame", "icon-sheet", "timeline-divider", "rsvp-envelope"];
+// Order of icons on the sheet, left→right, top→bottom (4 columns × 3 rows)
+const ICONS = ["rings", "arch", "cocktail", "dinner", "cake", "music", "dress", "suit", "hotel", "gift", "envelope", "calendar"];
+const ICON_LABELS = ["Rings", "Ceremony arch", "Cocktail", "Dinner plate", "Cake", "Music / dance", "Dress", "Suit", "Hotel", "Gift", "Envelope", "Calendar heart"];
+
+const $ = (s, r = document) => r.querySelector(s);
+const app = $("#app"), cover = $("#cover"), audio = $("#bgm"), musicBtn = $("#music-btn");
+const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+const clone = o => JSON.parse(JSON.stringify(o));
+
+/* ---------- content load / save ---------- */
+function merge(base, over) {
+  if (Array.isArray(base)) return Array.isArray(over) ? over : base;
+  if (base && typeof base === "object") {
+    const out = { ...base };
+    if (over && typeof over === "object" && !Array.isArray(over))
+      for (const k of Object.keys(over)) out[k] = k in base ? merge(base[k], over[k]) : over[k];
+    return out;
+  }
+  return over === undefined || over === null || typeof over !== typeof base ? base : over;
+}
+function loadContent() {
+  try {
+    const raw = localStorage.getItem(CONTENT_KEY);
+    if (raw) return merge(DEFAULT_CONTENT, JSON.parse(raw));
+  } catch (e) { /* corrupt or blocked storage: fall back to the demo */ }
+  return clone(DEFAULT_CONTENT);
+}
+let C = loadContent();
+
+function save() {
+  try { localStorage.setItem(CONTENT_KEY, JSON.stringify(C)); setStatus("Saved on this device ✓"); return true; }
+  catch (e) { setStatus("Couldn't save on this device — storage is full (images are large). Try a smaller image, or Export your version.", true); return false; }
+}
+
+/* ---------- helpers ---------- */
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function safeImg(u) {
+  u = String(u || "");
+  if (/^data:image\/(png|jpe?g|gif|webp);base64,[A-Za-z0-9+/=]+$/.test(u)) return u;
+  if (/^(https:\/\/|assets\/)[\w./%-]+$/.test(u)) return u;
+  return "";
+}
+function safeLink(u) {
+  u = String(u || "").trim();
+  return /^(https?:\/\/|mailto:|#)/i.test(u) ? u : "#";
+}
+const imgSrc = key => safeImg(C.images[key]) || `assets/images/${key}.png`;
+function art(key, alt, cls = "", eager = false) {
+  return `<span class="art ${cls}"><img src="${esc(imgSrc(key))}" alt="${esc(alt)}"${eager ? "" : ' loading="lazy"'} decoding="async"></span>`;
+}
+function icon(name, label) {
+  const i = Math.max(0, ICONS.indexOf(name));
+  const pos = `${(i % 4) * 100 / 3}% ${Math.floor(i / 4) * 50}%`;
+  return `<span class="icon" style="background-position:${pos}"${label ? ` role="img" aria-label="${esc(label)}"` : ' aria-hidden="true"'}></span>`;
+}
+function parseDate(d) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(d || ""); return m ? new Date(Date.UTC(+m[1], m[2] - 1, +m[3])) : null; }
+function fmtDate(d, opts = { weekday: "long", month: "long", day: "numeric", year: "numeric" }) {
+  const dt = parseDate(d); return dt ? dt.toLocaleDateString("en-US", { ...opts, timeZone: "UTC" }) : "";
+}
+function fmtTime(t) {
+  const m = /^(\d{1,2}):(\d{2})/.exec(t || ""); if (!m) return t || "";
+  const h = +m[1]; return `${h % 12 || 12}:${m[2]} ${h < 12 ? "AM" : "PM"}`;
+}
+// Wall-clock time at the venue → real instant, so the countdown is right for guests in any time zone.
+function zonedToUtc(date, time, tz) {
+  const guess = new Date(`${date}T${time || "00:00"}:00Z`);
+  if (isNaN(guess)) return guess;
+  try {
+    const p = {};
+    new Intl.DateTimeFormat("en-US", { timeZone: tz, hourCycle: "h23", year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" })
+      .formatToParts(guess).forEach(x => p[x.type] = x.value);
+    const asZone = Date.UTC(+p.year, p.month - 1, +p.day, +p.hour % 24, +p.minute, +p.second);
+    return new Date(guess.getTime() - (asZone - guess.getTime()));
+  } catch (e) { return new Date(`${date}T${time || "00:00"}:00`); }
+}
+function calStamp(date, time, addDays = 0) {
+  const d = parseDate(date); if (!d) return "";
+  d.setUTCDate(d.getUTCDate() + addDays);
+  return d.toISOString().slice(0, 10).replace(/-/g, "") + "T" + (time || "00:00").replace(":", "") + "00";
+}
+function calendarLink(title, date, start, end, place, details) {
+  const crosses = end && start && end <= start ? 1 : 0;
+  const q = new URLSearchParams({
+    action: "TEMPLATE", text: title,
+    dates: `${calStamp(date, start)}/${calStamp(date, end || start, crosses)}`,
+    ctz: C.timezone, location: place || "", details: details || ""
+  });
+  return "https://calendar.google.com/calendar/render?" + q.toString();
+}
+const couple = () => `${C.names.partner1} & ${C.names.partner2}`;
+const fullAddress = () => [C.venue.name, C.venue.address, C.venue.city].filter(Boolean).join(", ");
+
+/* ---------- theme ---------- */
+function rgb(hex) { const m = /^#?([0-9a-f]{6})$/i.exec(hex || ""); const n = m ? parseInt(m[1], 16) : 0x8a9a7b; return [n >> 16, (n >> 8) & 255, n & 255]; }
+function lum([r, g, b]) { const f = v => (v /= 255) <= .03928 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); }
+// Darken a colour until text in it reads at ≥4.5:1 on the ivory background.
+function inkOf(hex) {
+  let c = rgb(hex); const bg = lum(rgb("#FBF7EE"));
+  for (let i = 0; i < 40 && (bg + .05) / (lum(c) + .05) < 4.6; i++) c = c.map(v => v * .92);
+  return "#" + c.map(v => Math.round(v).toString(16).padStart(2, "0")).join("");
+}
+function applyTheme() {
+  const s = document.documentElement.style;
+  s.setProperty("--primary", C.theme.primary); s.setProperty("--primary-ink", inkOf(C.theme.primary));
+  s.setProperty("--accent", C.theme.accent); s.setProperty("--accent-ink", inkOf(C.theme.accent));
+  s.setProperty("--texture", `url("${imgSrc("background-texture")}")`);
+  const sheet = imgSrc("icon-sheet");
+  s.setProperty("--icon-sheet", `url("${sheet}")`);
+  const probe = new Image();
+  probe.onload = () => {
+    document.documentElement.classList.remove("no-icon-sheet");
+    s.setProperty("--icon-ratio", (probe.naturalWidth / 4) / (probe.naturalHeight / 3));
+  };
+  probe.onerror = () => document.documentElement.classList.add("no-icon-sheet");
+  probe.src = sheet;
+}
+
+/* ---------- render ---------- */
+function sectionHead(eyebrow, title, id) {
+  return `<p class="eyebrow">${esc(eyebrow)}</p><h2 id="${id}">${esc(title)}</h2><div class="ornament" aria-hidden="true"><span></span></div>`;
+}
+function render() {
+  applyTheme();
+  const n = C.names, when = fmtDate(C.date), shortDate = fmtDate(C.date, { month: "long", day: "numeric", year: "numeric" });
+  document.title = `${couple()} — Wedding Invitation`;
+
+  if (document.body.contains(cover)) {
+    $("#cover-img").src = imgSrc("cover-couple");
+    $("#cover-frame").src = imgSrc("cover-arch-frame");
+    $("#cover-names").textContent = couple();
+    $("#cover-sub").textContent = [shortDate, C.venue.city].filter(Boolean).join(" · ");
+  }
+
+  const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(fullAddress());
+  const r = C.rsvp;
+
+  app.innerHTML = `
+  <section class="hero" aria-labelledby="hero-h">
+    <div class="wrap">
+      <div class="hero-art rise" style="--d:0">
+        ${art("cover-couple", `Watercolor portrait of ${couple()}`, "", true)}
+        <img class="frame" src="${esc(imgSrc("cover-arch-frame"))}" alt="">
+      </div>
+      <p class="eyebrow rise" style="--d:1">Together with their families</p>
+      <h1 class="names rise" id="hero-h" tabindex="-1" style="--d:2">${esc(couple())}</h1>
+      <p class="full-names rise" style="--d:3">${esc(n.partner1Full)} &amp; ${esc(n.partner2Full)} invite you to celebrate their wedding</p>
+      <p class="when rise" style="--d:4">${esc(when)} · ${esc(fmtTime(C.time))}</p>
+      <p class="rise" style="--d:5">${esc(C.venue.name)} · ${esc(C.venue.city)}</p>
+      <div class="countdown rise" id="countdown" style="--d:6" aria-label="Countdown to the ceremony">
+        <div><b data-u="d">0</b><span>Days</span></div><div><b data-u="h">0</b><span>Hours</span></div>
+        <div><b data-u="m">0</b><span>Minutes</span></div><div><b data-u="s">0</b><span>Seconds</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="story" aria-labelledby="story-h">
+    <div class="wrap">
+      <div class="center reveal">${sectionHead("Our Story", "How we got here", "story-h")}</div>
+      ${C.story.map((ch, i) => `
+      <article class="chapter reveal">
+        ${art(ch.image || "story-meet", `${ch.title} — watercolor illustration`)}
+        <div><span class="chapter-no">Chapter ${i + 1}</span><h3>${esc(ch.title)}</h3><p class="lead">${esc(ch.text)}</p></div>
+      </article>`).join("")}
+    </div>
+  </section>
+
+  <section class="section" id="details" aria-labelledby="details-h">
+    <div class="wrap center">
+      <div class="reveal">${sectionHead("The Celebration", "Wedding Details", "details-h")}</div>
+      ${art("venue", `Watercolor painting of ${C.venue.name}`, "venue-art reveal")}
+      <div class="details-grid">
+        <div class="card reveal"><p class="eyebrow">When</p><h3>${esc(when)}</h3><p>Ceremony at ${esc(fmtTime(C.time))}</p>
+          <a class="btn ghost" href="${esc(calendarLink(`Wedding of ${couple()}`, C.date, C.time, C.endTime, fullAddress(), "We can't wait to celebrate with you."))}" target="_blank" rel="noopener">Add to Calendar</a></div>
+        <div class="card reveal"><p class="eyebrow">Where</p><h3>${esc(C.venue.name)}</h3><p>${esc(C.venue.address)}<br>${esc(C.venue.city)}</p>
+          <a class="btn" href="${esc(mapUrl)}" target="_blank" rel="noopener">Open in Maps</a></div>
+      </div>
+      <div class="reveal"><h3>Our Wedding Colours</h3>
+        <ul class="palette">${C.palette.map(p => `<li><span class="dot" style="background:${esc(/^#[0-9a-f]{6}$/i.test(p.hex) ? p.hex : "#cccccc")}" aria-hidden="true"></span>${esc(p.name)}</li>`).join("")}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="timeline" aria-labelledby="timeline-h">
+    <div class="wrap">
+      ${art("timeline-divider", "", "divider reveal")}
+      <div class="center reveal">${sectionHead("The Day", "Order of the Day", "timeline-h")}</div>
+      ${art("reception", "Watercolor painting of the reception tables set under string lights", "reception-art reveal")}
+      <ol class="timeline">${C.timeline.map(t => `
+        <li class="reveal"><span class="icon-wrap">${icon(t.icon)}</span><div><time>${esc(fmtTime(t.time))}</time><strong>${esc(t.label)}</strong></div></li>`).join("")}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="dress" aria-labelledby="dress-h">
+    <div class="wrap split">
+      ${art("dress-code", "Watercolor illustration of garden formal outfits", "reveal")}
+      <div class="reveal">
+        ${sectionHead("What to Wear", "Dress Code", "dress-h")}
+        <div class="icons-inline">${icon("dress", "Dress")}${icon("suit", "Suit")}</div>
+        <p class="lead">${esc(C.dressCode)}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="events" aria-labelledby="events-h">
+    <div class="wrap">
+      <div class="center reveal">${sectionHead("More Time Together", "Extra Events", "events-h")}</div>
+      <div class="events">${C.events.map(e => `
+        <article class="card event reveal">
+          ${e.image ? art(e.image, `Watercolor illustration for the ${e.title}`) : ""}
+          <div class="event-body">
+            ${e.image ? "" : icon("calendar")}
+            <h3>${esc(e.title)}</h3>
+            <p class="meta">${esc(fmtDate(e.date))} · ${esc(fmtTime(e.time))}</p>
+            <p class="meta">${esc(e.place)}</p>
+            <p>${esc(e.description)}</p>
+            <a class="btn ghost" href="${esc(calendarLink(e.title, e.date, e.time, e.endTime, e.place, e.description))}" target="_blank" rel="noopener">Add to Calendar</a>
+          </div>
+        </article>`).join("")}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="stay" aria-labelledby="stay-h">
+    <div class="wrap">
+      <div class="center reveal">${sectionHead("Travel", "Where to Stay", "stay-h")}</div>
+      ${art("hotel", "Watercolor painting of a hotel near the villa", "wide-art reveal")}
+      <div class="hotels">${C.hotels.map(h => `
+        <div class="card hotel reveal">
+          <div class="icons-inline">${icon("hotel")}</div>
+          <h3>${esc(h.name)}</h3>
+          <p class="meta">${esc(h.distance)} · ${esc(h.price)}</p>
+          ${h.note ? `<span class="code">${esc(h.note)}</span>` : ""}
+          ${h.url && h.url !== "#" ? `<p style="margin-top:14px"><a class="btn ghost" href="${esc(safeLink(h.url))}" target="_blank" rel="noopener">Book a room</a></p>` : ""}
+        </div>`).join("")}
+      </div>
+      <div class="card reveal"><h3>Travel &amp; Parking</h3>
+        <ul class="notes">${C.travel.split("\n").filter(l => l.trim()).map(l => `<li>${esc(l)}</li>`).join("")}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="gifts" aria-labelledby="gifts-h">
+    <div class="wrap center">
+      <div class="reveal">${sectionHead("Registry", "Gifts", "gifts-h")}</div>
+      ${art("gifts", "Watercolor illustration of wrapped gifts", "gifts-art reveal")}
+      <div class="icons-inline reveal" style="justify-content:center">${icon("gift")}</div>
+      <p class="lead reveal">${esc(C.giftsNote)}</p>
+      <div class="btn-row reveal">${C.registry.map(g => `<a class="btn" href="${esc(safeLink(g.url))}"${g.url && g.url !== "#" ? ' target="_blank" rel="noopener"' : ""}>${esc(g.label)}</a>`).join("")}</div>
+    </div>
+  </section>
+
+  <figure class="break section">
+    ${art("first-dance", `Watercolor painting of ${couple()} sharing their first dance`)}
+    <figcaption><p>Save us a dance</p></figcaption>
+  </figure>
+
+  <section class="section" id="rsvp" aria-labelledby="rsvp-h">
+    <div class="wrap" style="max-width:560px">
+      ${art("rsvp-envelope", "Watercolor illustration of a sealed invitation envelope", "rsvp-art reveal")}
+      <div class="center reveal">${sectionHead(`Kindly reply by ${fmtDate(r.deadline, { month: "long", day: "numeric", year: "numeric" })}`, "RSVP", "rsvp-h")}</div>
+      <div class="card reveal" id="rsvp-box">
+        <form id="rsvp-form" novalidate>
+          <div class="field"><label for="r-name">Full name</label><input type="text" id="r-name" name="fullName" autocomplete="name" required aria-describedby="e-name"><span class="error" id="e-name"></span></div>
+          <div class="field"><label for="r-email">Email</label><input type="email" id="r-email" name="email" autocomplete="email" required aria-describedby="e-email"><span class="error" id="e-email"></span></div>
+          <fieldset class="field" style="border:0;padding:0;margin:0 0 18px" aria-describedby="e-att">
+            <legend class="label">Will you attend?</legend>
+            <div class="choices">
+              <label class="choice"><input type="radio" name="attending" value="yes" required><span>Joyfully accepts</span></label>
+              <label class="choice"><input type="radio" name="attending" value="no"><span>Regretfully declines</span></label>
+            </div>
+            <span class="error" id="e-att"></span>
+          </fieldset>
+          <div id="if-yes" hidden>
+            <div class="field"><label for="r-guests">Number of guests (including you)</label>
+              <select id="r-guests" name="guests">${[1, 2, 3, 4, 5, 6].slice(0, r.plusOne ? 6 : 1).map(v => `<option>${v}</option>`).join("")}</select></div>
+            ${r.plusOne ? `<div class="field" id="plus-field" hidden><label for="r-plus">Plus-one name(s)</label><input type="text" id="r-plus" name="plusOnes"></div>` : ""}
+            ${r.meal ? `<fieldset class="field" style="border:0;padding:0;margin:0 0 18px"><legend class="label">Meal choice</legend><div class="choices">
+              ${["Beef", "Salmon", "Vegetarian"].map(m => `<label class="choice"><input type="radio" name="meal" value="${m}"><span>${m}</span></label>`).join("")}</div></fieldset>` : ""}
+            ${r.allergies ? `<div class="field"><label for="r-allergy">Allergies or dietary needs</label><input type="text" id="r-allergy" name="allergies"></div>` : ""}
+            ${r.song ? `<div class="field"><label for="r-song">Song request <span class="hint">What will get you on the dance floor?</span></label><input type="text" id="r-song" name="song"></div>` : ""}
+          </div>
+          <div class="field"><label for="r-msg">Message for the couple</label><textarea id="r-msg" name="message"></textarea></div>
+          <button type="submit" class="btn" style="width:100%">Send RSVP</button>
+          <p class="form-note">Demo RSVP — responses stay on this device.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section closing center" aria-labelledby="closing-h">
+    <div class="wrap">
+      ${art("closing-couple", `Watercolor portrait of ${couple()} walking away hand in hand`, "arch reveal")}
+      <h2 class="reveal" id="closing-h">${esc(C.closing)}</h2>
+      <p class="names reveal">${esc(couple())}</p>
+    </div>
+  </section>`;
+
+  $("#footer-line").textContent = `${couple()} · ${shortDate}`;
+  setupReveal();
+  startCountdown();
+}
+
+/* ---------- scroll reveal ---------- */
+let io;
+function setupReveal() {
+  const els = app.querySelectorAll(".reveal");
+  if (io) io.disconnect();
+  if (reduceMotion() || !("IntersectionObserver" in window) || rendered) { els.forEach(e => e.classList.add("in")); return; }
+  io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { rootMargin: "0px 0px -8% 0px", threshold: .12 });
+  els.forEach(e => io.observe(e));
+}
+let rendered = false; // after the first render (i.e. live edits) skip re-animating
+
+/* ---------- countdown ---------- */
+let cdTimer;
+function startCountdown() {
+  clearInterval(cdTimer);
+  const box = $("#countdown"), target = zonedToUtc(C.date, C.time, C.timezone).getTime();
+  if (isNaN(target)) { box.hidden = true; return; }
+  const tick = () => {
+    let s = Math.floor((target - Date.now()) / 1000);
+    if (s <= 0) { clearInterval(cdTimer); box.innerHTML = `<p class="just-married">Just married!</p>`; return; }
+    const v = { d: Math.floor(s / 86400), h: Math.floor(s % 86400 / 3600), m: Math.floor(s % 3600 / 60), s: s % 60 };
+    for (const k in v) box.querySelector(`[data-u="${k}"]`).textContent = k === "d" ? v[k] : String(v[k]).padStart(2, "0");
+  };
+  tick(); cdTimer = setInterval(tick, 1000);
+}
+
+/* ---------- RSVP (demo: localStorage only, nothing is sent) ---------- */
+app.addEventListener("change", e => {
+  const f = e.target.form; if (!f || f.id !== "rsvp-form") return;
+  const yes = f.attending.value === "yes";
+  $("#if-yes").hidden = !yes;
+  const plus = $("#plus-field"); if (plus) plus.hidden = !(yes && +f.guests.value > 1);
+});
+app.addEventListener("submit", e => {
+  if (e.target.id !== "rsvp-form") return;
+  e.preventDefault();
+  const f = e.target, errs = [];
+  const check = (input, errId, msg) => {
+    $("#" + errId).textContent = msg;
+    input.setAttribute("aria-invalid", !!msg);
+    if (msg) errs.push(input);
+  };
+  check(f.fullName, "e-name", f.fullName.value.trim() ? "" : "Please tell us your name.");
+  check(f.email, "e-email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email.value.trim()) ? "" : "Please enter a valid email address.");
+  $("#e-att").textContent = f.attending.value ? "" : "Please let us know if you can come.";
+  if (!f.attending.value) errs.push(f.attending[0]);
+  if (errs.length) { errs[0].focus(); return; }
+
+  const data = Object.fromEntries(new FormData(f));
+  if (data.attending !== "yes") ["guests", "plusOnes", "meal", "allergies", "song"].forEach(k => delete data[k]);
+  data.submittedAt = new Date().toISOString();
+  try {
+    const all = JSON.parse(localStorage.getItem(RSVP_KEY) || "[]");
+    all.push(data); localStorage.setItem(RSVP_KEY, JSON.stringify(all));
+  } catch (err) { /* storage blocked — still thank the guest; it's a demo */ }
+
+  const first = esc(data.fullName.trim().split(/\s+/)[0]);
+  $("#rsvp-box").innerHTML = `<div class="thanks" role="status">
+    <h3 tabindex="-1" id="thanks-h">Thank you, ${first}!</h3>
+    <p class="lead">${data.attending === "yes" ? "We can't wait to celebrate with you." : "We'll miss you, and we'll raise a glass in your honour."}</p>
+    <p><strong>Thank you — demo only, nothing was sent.</strong></p>
+    <button type="button" class="btn ghost" id="rsvp-again">Send another response</button></div>`;
+  $("#thanks-h").focus();
+});
+app.addEventListener("click", e => {
+  if (e.target.id === "rsvp-again") { render(); $("#r-name").focus(); }
+  const a = e.target.closest('a[href="#"]'); if (a) e.preventDefault(); // placeholder registry links
+});
+
+/* ---------- music ---------- */
+const MAX_VOL = .8;
+let musicOK = null, actx = null, gain = null;
+function updateMusicBtn() {
+  musicBtn.hidden = !(musicOK && document.body.classList.contains("opened"));
+  const playing = !audio.paused;
+  musicBtn.setAttribute("aria-pressed", playing);
+  musicBtn.setAttribute("aria-label", playing ? "Pause music" : "Play music");
+}
+["loadedmetadata", "playing"].forEach(ev => audio.addEventListener(ev, () => { musicOK = true; updateMusicBtn(); }));
+audio.addEventListener("error", () => { musicOK = false; updateMusicBtn(); });
+["play", "pause"].forEach(ev => audio.addEventListener(ev, updateMusicBtn));
+
+function playWithFade(seconds) {
+  // iOS ignores audio.volume, so fade with a Web Audio gain node when served over http(s).
+  try {
+    if (!actx && /^https?:$/.test(location.protocol)) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) { actx = new AC(); gain = actx.createGain(); actx.createMediaElementSource(audio).connect(gain); gain.connect(actx.destination); }
+    }
+  } catch (e) { actx = gain = null; }
+  if (gain) {
+    actx.resume();
+    const t = actx.currentTime;
+    gain.gain.cancelScheduledValues(t); gain.gain.setValueAtTime(0.0001, t); gain.gain.linearRampToValueAtTime(MAX_VOL, t + seconds);
+  } else audio.volume = 0;
+  const p = audio.play();
+  if (p) p.catch(() => {});
+  if (!gain) {
+    const t0 = performance.now();
+    const step = now => { const k = Math.min(1, (now - t0) / (seconds * 1000)); audio.volume = k * MAX_VOL; if (k < 1 && !audio.paused) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
+}
+musicBtn.addEventListener("click", () => { if (audio.paused) playWithFade(.6); else audio.pause(); });
+
+/* ---------- cover: one tap opens ---------- */
+let opened = false;
+function unlockPage() {
+  if (document.body.contains(cover)) cover.remove();
+  document.documentElement.classList.remove("locked");
+  app.inert = false;
+  document.body.classList.add("opened");
+  updateMusicBtn();
+}
+function openInvitation() {
+  if (opened) return;
+  opened = true;
+  if (musicOK !== false) playWithFade(2); // inside the tap handler = the user gesture browsers require
+  const fade = reduceMotion();
+  cover.setAttribute("aria-hidden", "true");
+  cover.classList.add(fade ? "fading" : "opening");
+  setTimeout(() => { unlockPage(); $("#hero-h").focus({ preventScroll: true }); }, fade ? 800 : 1400);
+}
+function addPetals() {
+  const colours = ["#F2C4A0", "#C67B5C", "#8A9A7B", "#E8B9A0", "#C9A227", "#7D9DBD"];
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement("span"), a = (i / 16) * Math.PI * 2, d = 140 + Math.random() * 180;
+    p.className = "petal"; p.setAttribute("aria-hidden", "true");
+    p.style.cssText = `background:${colours[i % colours.length]};--x:${Math.cos(a) * d}px;--y:${Math.sin(a) * d + 120}px;--r:${Math.round(Math.random() * 540 - 270)}deg;--delay:${Math.random() * 250}ms`;
+    cover.append(p);
+  }
+}
+cover.addEventListener("click", openInvitation);
+
+/* ---------- couple editor (passcode-gated) ---------- */
+const passDialog = $("#pass-dialog"), editor = $("#editor"), edBody = $("#ed-body"), editPill = $("#edit-pill");
+let unlocked = false, saveTimer;
+const hash = s => { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); };
+
+function setStatus(msg, bad) { const s = $("#ed-status"); s.textContent = msg; s.classList.toggle("bad", !!bad); }
+function requestEditor() {
+  if (unlocked) return openEditor();
+  $("#pass-input").value = ""; $("#pass-err").textContent = "";
+  passDialog.showModal();
+}
+$("#pass-form").addEventListener("submit", e => {
+  e.preventDefault();
+  if (hash($("#pass-input").value.trim()) === PASS_HASH) { unlocked = true; passDialog.close(); openEditor(); }
+  else { $("#pass-err").textContent = "That passcode isn't right."; $("#pass-input").select(); }
+});
+$("#pass-cancel").addEventListener("click", () => passDialog.close());
+$("#login-link").addEventListener("click", e => { e.preventDefault(); requestEditor(); });
+editPill.addEventListener("click", openEditor);
+
+function openEditor() {
+  buildEditor(); setStatus("");
+  document.documentElement.classList.add("locked");
+  editPill.hidden = true;
+  editor.showModal();
+}
+editor.addEventListener("close", () => {
+  document.documentElement.classList.remove("locked");
+  editPill.hidden = !unlocked;
+});
+$("#ed-preview").addEventListener("click", () => { editor.close(); window.scrollTo(0, 0); });
+
+function changed() {
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => { save(); render(); }, 200);
+}
+const getPath = p => p.split(".").reduce((o, k) => o?.[k], C);
+function setPath(p, v) { const ks = p.split("."), last = ks.pop(); ks.reduce((o, k) => o[k], C)[last] = v; }
+
+function el(tag, attrs = {}, ...kids) {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) k === "text" ? n.textContent = v : n.setAttribute(k, v);
+  n.append(...kids); return n;
+}
+let fieldSeq = 0;
+function field(label, path, type = "text", options) {
+  const id = "ed-f" + (++fieldSeq), wrap = el("div", { class: "field" });
+  let inp;
+  if (type === "textarea") inp = el("textarea", { id });
+  else if (type === "select") { inp = el("select", { id }); options.forEach(([v, l]) => inp.append(el("option", { value: v, text: l }))); }
+  else inp = el("input", { id, type });
+  if (type === "checkbox") {
+    inp.checked = !!getPath(path);
+    wrap.className = "ed-check"; wrap.append(inp, el("label", { for: id, text: label }));
+  } else {
+    inp.value = getPath(path) ?? "";
+    wrap.append(el("label", { for: id, text: label }), inp);
+  }
+  const update = () => { setPath(path, type === "checkbox" ? inp.checked : inp.value); changed(); };
+  inp.addEventListener("input", update); inp.addEventListener("change", update);
+  return wrap;
+}
+const row = (...kids) => el("div", { class: "ed-row" }, ...kids);
+const openGroups = new Set(["names"]);
+function group(id, title, ...kids) {
+  const d = el("details", { "data-g": id }, el("summary", { text: title }), el("div", { class: "ed-group" }, ...kids));
+  d.open = openGroups.has(id);
+  d.addEventListener("toggle", () => d.open ? openGroups.add(id) : openGroups.delete(id));
+  return d;
+}
+function list(path, itemLabel, buildItem, blank) {
+  const box = el("div");
+  getPath(path).forEach((_, i) => {
+    const rm = el("button", { type: "button", class: "btn ghost ed-small", text: `Remove ${itemLabel.toLowerCase()}` });
+    rm.addEventListener("click", () => { getPath(path).splice(i, 1); changed(); rebuild(); });
+    box.append(el("div", { class: "ed-item" }, ...buildItem(`${path}.${i}`), rm));
+  });
+  const add = el("button", { type: "button", class: "btn ed-small", text: `Add ${itemLabel.toLowerCase()}` });
+  add.addEventListener("click", () => { getPath(path).push(blank()); changed(); rebuild(); });
+  box.append(add);
+  return box;
+}
+function rebuild() { const y = edBody.scrollTop; buildEditor(); edBody.scrollTop = y; }
+
+function fileToDataUrl(file, keepAlpha, max) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file), im = new Image();
+    im.onload = () => {
+      const s = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight));
+      const cv = el("canvas"); cv.width = Math.round(im.naturalWidth * s); cv.height = Math.round(im.naturalHeight * s);
+      cv.getContext("2d").drawImage(im, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(url);
+      let d = cv.toDataURL("image/webp", .86);
+      if (!d.startsWith("data:image/webp")) d = keepAlpha ? cv.toDataURL("image/png") : cv.toDataURL("image/jpeg", .86);
+      resolve(d);
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); reject(); };
+    im.src = url;
+  });
+}
+function imageSlot([key, label]) {
+  const id = "ed-img-" + key, thumb = el("span", { class: "art" }, el("img", { src: imgSrc(key), alt: "" }));
+  const inp = el("input", { type: "file", id, accept: "image/*", class: "sr-only" });
+  const pick = el("label", { class: "btn ghost ed-small", for: id, text: "Replace" });
+  const restore = el("button", { type: "button", class: "btn ghost ed-small", text: "Use original" });
+  restore.hidden = !C.images[key];
+  inp.addEventListener("change", async () => {
+    const f = inp.files[0]; if (!f) return;
+    setStatus("Preparing image…");
+    try {
+      C.images[key] = await fileToDataUrl(f, ALPHA_SLOTS.includes(key), key === "icon-sheet" ? 2048 : key === "background-texture" ? 1024 : 1600);
+      if (!save()) delete C.images[key];
+      render(); rebuild();
+    } catch (e) { setStatus("That file couldn't be read as an image.", true); }
+  });
+  restore.addEventListener("click", () => { delete C.images[key]; save(); render(); rebuild(); });
+  return el("div", { class: "ed-img" }, thumb, el("div", {}, el("p", { style: "margin:0 0 6px;font-weight:500", text: label }), el("div", { class: "ed-actions" }, pick, restore), inp));
+}
+
+function buildEditor() {
+  fieldSeq = 0;
+  const iconOpts = ICONS.map((k, i) => [k, ICON_LABELS[i]]);
+  const imgOpts = [["", "No image"], ...IMAGE_SLOTS.map(([k, l]) => [k, l])];
+  const songInput = el("input", { type: "file", id: "ed-song", accept: "audio/*", class: "sr-only" });
+  songInput.addEventListener("change", () => {
+    const f = songInput.files[0]; if (!f) return;
+    audio.src = URL.createObjectURL(f); musicOK = null; audio.load();
+    setStatus(`Song "${f.name}" loaded for this session — use the music button to play it.`);
+  });
+
+  edBody.replaceChildren(
+    group("names", "Names, date & venue",
+      row(field("Partner 1 (short)", "names.partner1"), field("Partner 1 full name", "names.partner1Full")),
+      row(field("Partner 2 (short)", "names.partner2"), field("Partner 2 full name", "names.partner2Full")),
+      row(field("Wedding date", "date", "date"), field("Ceremony time", "time", "time")),
+      row(field("Party ends", "endTime", "time"), field("Venue time zone (e.g. America/Los_Angeles)", "timezone")),
+      field("Venue name", "venue.name"), field("Street address", "venue.address"), field("City / area", "venue.city"),
+      field("Closing line", "closing")),
+    group("story", "Our Story",
+      ...C.story.map((_, i) => el("div", { class: "ed-item" }, field(`Chapter ${i + 1} title`, `story.${i}.title`), field(`Chapter ${i + 1} text`, `story.${i}.text`, "textarea")))),
+    group("theme", "Theme colours & palette",
+      row(field("Primary colour", "theme.primary", "color"), field("Accent colour", "theme.accent", "color")),
+      el("p", { class: "hint", text: "Palette dots shown in Wedding Details:" }),
+      list("palette", "Colour", p => [row(field("Name", p + ".name"), field("Colour", p + ".hex", "color"))], () => ({ name: "New colour", hex: "#C9A227" }))),
+    group("timeline", "Day-of timeline",
+      list("timeline", "Item", p => [row(field("Time", p + ".time", "time"), field("Icon", p + ".icon", "select", iconOpts)), field("Label", p + ".label")], () => ({ time: "12:00", label: "New moment", icon: "rings" }))),
+    group("dress", "Dress code", field("Dress code text", "dressCode", "textarea")),
+    group("events", "Extra events",
+      list("events", "Event", p => [field("Title", p + ".title"), row(field("Date", p + ".date", "date"), field("Image", p + ".image", "select", imgOpts)),
+        row(field("Starts", p + ".time", "time"), field("Ends", p + ".endTime", "time")), field("Place", p + ".place"), field("Description", p + ".description", "textarea")],
+        () => ({ title: "New event", date: C.date, time: "12:00", endTime: "14:00", place: "", description: "", image: "" }))),
+    group("stay", "Hotels, travel & parking",
+      list("hotels", "Hotel", p => [field("Hotel name", p + ".name"), row(field("Distance", p + ".distance"), field("Price", p + ".price")),
+        field("Note / booking code", p + ".note"), field("Booking link (optional)", p + ".url", "url")], () => ({ name: "New hotel", distance: "", price: "", note: "", url: "" })),
+      field("Travel & parking notes (one per line)", "travel", "textarea")),
+    group("gifts", "Registry & gifts",
+      field("Gifts note", "giftsNote", "textarea"),
+      list("registry", "Registry button", p => [field("Button label", p + ".label"), field("Link (https://…)", p + ".url", "url")], () => ({ label: "Registry", url: "#" }))),
+    group("rsvp", "RSVP",
+      field("Reply-by date", "rsvp.deadline", "date"),
+      field("Ask for plus-one names", "rsvp.plusOne", "checkbox"), field("Ask for meal choice", "rsvp.meal", "checkbox"),
+      field("Ask about allergies / dietary needs", "rsvp.allergies", "checkbox"), field("Ask for a song request", "rsvp.song", "checkbox"),
+      el("p", { class: "hint", text: "Demo: responses are saved only in this browser (private-invitation-rsvps-v1)." })),
+    group("images", "Images", el("p", { class: "hint", text: "Pick a new picture for any slot. It's saved on this device and included when you export." }), ...IMAGE_SLOTS.map(imageSlot)),
+    group("music", "Music",
+      el("p", { class: "hint", text: "Replace the song for this session only: it isn't saved on the device or in the export. To publish a new song, send the MP3 to whoever publishes your site (it lives at assets/music/song.mp3)." }),
+      el("label", { class: "btn ghost ed-small", for: "ed-song", text: "Choose a song" }), songInput)
+  );
+}
+
+$("#ed-export").addEventListener("click", () => {
+  const a = el("a", { href: URL.createObjectURL(new Blob([JSON.stringify(C, null, 2)], { type: "application/json" })), download: "wedding-content.json" });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  setStatus("Exported wedding-content.json");
+});
+$("#ed-import").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  try {
+    const data = JSON.parse(await f.text());
+    if (!data || typeof data !== "object" || !data.names) throw new Error();
+    C = merge(DEFAULT_CONTENT, data);
+    save(); render(); rebuild(); setStatus(`Imported ${f.name} ✓`);
+  } catch (err) { setStatus("That file isn't a wedding-content.json export.", true); }
+});
+$("#ed-reset").addEventListener("click", () => {
+  if (!confirm("Reset everything to the Jane & John demo? Your edits on this device will be erased.")) return;
+  try { localStorage.removeItem(CONTENT_KEY); } catch (e) {}
+  C = clone(DEFAULT_CONTENT); render(); rebuild(); setStatus("Reset to the demo.");
+});
+
+/* ---------- boot ---------- */
+document.addEventListener("error", e => {
+  const t = e.target; if (t.tagName !== "IMG") return;
+  const box = t.closest(".art"); box ? box.classList.add("missing") : t.style.visibility = "hidden";
+}, true);
+render();
+rendered = true;
+if (new URLSearchParams(location.search).has("edit")) {
+  opened = true; unlockPage(); requestEditor(); // skip the cover, no autoplay
+} else addPetals();
+})();
+</script>
+</body>
+</html>
