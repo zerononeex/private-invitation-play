@@ -62,37 +62,69 @@ a{color:var(--primary-ink)}
 .no-icon-sheet .icon{background:none;position:relative}
 .no-icon-sheet .icon::after{content:"";position:absolute;inset:38%;transform:rotate(45deg);background:var(--gold)}
 
-/* ===== Cover: sealed envelope =====
-   Geometry measured on envelope.png (1720×1280): flap hinge at y 2.97%,
-   flap tip (seal centre) at x 49.85% / y 66%. Polygons trace the outer
-   edge of the painted gold flap border. */
-.cover{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;touch-action:none;display:grid;grid-template-rows:auto auto auto;align-content:center;row-gap:clamp(24px,5svh,52px);justify-items:center;text-align:center;background:#FBF8F1;padding:calc(20px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom))}
-.cover-names{font:400 clamp(2.4rem,min(12vw,7svh),3.6rem)/1.1 var(--script);color:var(--ink);margin:0}
-.cover-sub{font:500 .82rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:8px 0 0}
-.env{position:relative;width:min(88vw,560px,58vh);width:min(88vw,560px,58svh);aspect-ratio:1720/1280;perspective:1200px;transform-origin:50% 70%}
-.env-body{position:relative;z-index:1;display:block;width:100%;height:100%;clip-path:inset(2.9% 0 0 0)}
-.env-inside{position:absolute;inset:0;z-index:1;visibility:hidden;clip-path:polygon(2.21% 2.97%, 4.1% 10.94%, 46.2% 64.4%, 47.6% 65.7%, 49.19% 66.7%, 50.52% 66.7%, 52.1% 65.7%, 53.5% 64.4%, 95.8% 10.94%, 97.33% 2.97%);background:linear-gradient(rgba(70,58,36,.28),rgba(70,58,36,.06) 30%,rgba(70,58,36,0) 60%),url("assets/images/envelope-lining.png") 50% 0/58% auto #EFE6D2}
+/* ===== Cover: envelope → ribboned card =====
+   envelope.png geometry (1720×1280): flap hinge y 2.97%, flap tip (seal) x 49.85% / y 66%.
+   The flap's painted area is cut out of the body (mask), so once the flap lifts you look
+   through the pocket at the card that sits full-screen behind the envelope. */
+.cover{position:fixed;inset:0;z-index:100;overflow:hidden;cursor:pointer;touch-action:none;display:grid;place-items:center;background:#FBF8F0}
+.env{position:relative;z-index:1;width:min(88vw,560px,58vh);width:min(88vw,560px,58svh);aspect-ratio:1720/1280;perspective:1200px;transform-origin:50% 36%;box-shadow:0 0 0 100vmax #FBF8F0}
+.env-body{display:block;width:100%;height:100%;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H100V100H0Z M2.21 2.97L4.48 10.94L46.57 64.06L47.79 65.31L49.19 66.25L50.52 66.25L51.98 65.31L53.14 64.06L95.41 10.94L97.33 2.97Z'/%3E%3C/svg%3E") 0 0/100% 100%;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath fill-rule='evenodd' d='M0 0H100V100H0Z M2.21 2.97L4.48 10.94L46.57 64.06L47.79 65.31L49.19 66.25L50.52 66.25L51.98 65.31L53.14 64.06L95.41 10.94L97.33 2.97Z'/%3E%3C/svg%3E") 0 0/100% 100%}
+.env-shade{position:absolute;inset:0;clip-path:polygon(2.21% 2.97%, 4.48% 10.94%, 46.57% 64.06%, 47.79% 65.31%, 49.19% 66.25%, 50.52% 66.25%, 51.98% 65.31%, 53.14% 64.06%, 95.41% 10.94%, 97.33% 2.97%);background:linear-gradient(rgba(96,68,40,.32),rgba(96,68,40,.08) 60%,rgba(96,68,40,0));pointer-events:none}
 .env-flap{position:absolute;left:0;right:0;top:2.97%;height:63.28%;z-index:2;transform-origin:50% 0;transform-style:preserve-3d}
 .flap-face{position:absolute;inset:0;overflow:hidden;-webkit-backface-visibility:hidden;backface-visibility:hidden;clip-path:polygon(2.21% 0, 4.48% 12.59%, 46.57% 96.54%, 47.79% 98.52%, 49.19% 100%, 50.52% 100%, 51.98% 98.52%, 53.14% 96.54%, 95.41% 12.59%, 97.33% 0)}
 .flap-front img{position:absolute;left:0;top:-4.69%;width:100%;max-width:none;height:auto}
 .flap-back{transform:rotateX(180deg);clip-path:polygon(2.21% 100%, 4.48% 87.41%, 46.57% 3.46%, 47.79% 1.48%, 49.19% 0, 50.52% 0, 51.98% 1.48%, 53.14% 3.46%, 95.41% 87.41%, 97.33% 100%);background:linear-gradient(rgba(201,162,39,.16),rgba(201,162,39,0) 45%),url("assets/images/envelope-lining.png") 50% 100%/58% auto #EFE6D2}
-.seal{position:absolute;left:49.85%;top:66%;z-index:3;width:21%;aspect-ratio:1;container-type:inline-size;transform:translate(-50%,-50%);display:grid;place-items:center;border:0;padding:0;background:none;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 5px 8px rgba(38,46,30,.32));animation:seal-pulse 2.6s ease-in-out infinite}
+.seal{position:absolute;left:49.85%;top:99.6%;width:21%;aspect-ratio:1;container-type:inline-size;transform:translate(-50%,-50%) translateZ(2px);-webkit-backface-visibility:hidden;backface-visibility:hidden;display:grid;place-items:center;border:0;padding:0;background:none;cursor:pointer;touch-action:manipulation;filter:drop-shadow(0 5px 8px rgba(38,46,30,.32));animation:seal-pulse 2.6s ease-in-out infinite}
 .seal::before{content:"";position:absolute;inset:-2%;transform:rotate(-12deg);border-radius:41% 59% 47% 53% / 57% 43% 58% 42%;background:radial-gradient(circle at 38% 32%,#728262,#4F5E43 72%,#435037);box-shadow:inset 0 -3px 5px rgba(0,0,0,.25),inset 0 2px 2px rgba(255,255,255,.16)}
 .seal span{position:relative;width:74%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 34%,#7B8C69,#5A6A4B 62%,#4B5A3E);box-shadow:inset 0 3px 5px rgba(0,0,0,.34),inset 0 -2px 3px rgba(255,255,255,.18);font:600 1.5rem/1 var(--serif);font-size:34cqw;letter-spacing:.01em;padding-top:2%;color:#D9B95C;text-shadow:0 1px 0 rgba(0,0,0,.4),0 -1px 0 rgba(255,236,190,.22)}
-@keyframes seal-pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.05)}}
-.cover-hint{margin:0;font:500 .78rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-/* Opening timeline (total 2.9s): seal breaks 0–.35s · flap opens .3–1.3s · stillness · zoom 1.5–2.9s · fade 2.2–2.9s */
-.cover.opening .seal{animation:seal-break .35s ease-out forwards}
-.cover.opening .env-inside{animation:show 0s .3s forwards}
-.cover.opening .env-flap{animation:flap-open 1s cubic-bezier(.65,0,.35,1) .3s forwards}
-.cover.opening .env{animation:env-zoom 1.4s cubic-bezier(.55,0,.9,.4) 1.5s forwards}
-.cover.opening .cover-head,.cover.opening .cover-hint{animation:fade-out .4s ease .3s forwards}
-.cover.opening{animation:fade-out .7s ease-in 2.2s forwards}
-@keyframes seal-break{to{transform:translate(-50%,-50%) scale(1.18);opacity:0;filter:blur(3px)}}
-@keyframes flap-open{0%{transform:rotateX(0);z-index:2}50%{z-index:2}50.01%,100%{z-index:0}100%{transform:rotateX(-180deg)}}
-@keyframes env-zoom{to{transform:scale(2.3)}}
+@keyframes seal-pulse{0%,100%{transform:translate(-50%,-50%) translateZ(2px) scale(1)}50%{transform:translate(-50%,-50%) translateZ(2px) scale(1.05)}}
+.cover-hint{position:absolute;z-index:2;left:0;right:0;bottom:calc(max(6svh,24px) + env(safe-area-inset-bottom));margin:0;text-align:center;font:500 .78rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+/* The card waiting inside: painted arch frame, satin ribbon + bow, text revealed after the bow unties */
+.invite{position:absolute;inset:0;z-index:0;display:grid;place-items:center;background:#FBF8F0;transform:scale(.82)}
+.card-inner{position:relative;height:min(100%,calc(100vw * 1376 / 768));aspect-ratio:768/1376}
+.card-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.card-text{position:absolute;inset:16% 21% 17%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.35em;color:var(--ink)}
+.card-text>*{margin:0;opacity:0}
+.card-eyebrow{font:italic 400 clamp(.95rem,3.6vw,1.2rem)/1.3 var(--serif);color:var(--muted)}
+.card-name{font:400 clamp(2.6rem,12vw,3.8rem)/1 var(--script)}
+.card-amp{font:italic 400 clamp(1.1rem,4.4vw,1.4rem)/1 var(--serif);color:var(--muted)}
+.card-date{font:500 .8rem/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;margin-top:.8em!important}
+.card-venue{font:400 clamp(1.05rem,4vw,1.25rem)/1.3 var(--serif)}
+.card-city{font:500 .7rem/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.ribbon{position:absolute;inset:0;pointer-events:none}
+.band{position:absolute;top:50%;height:clamp(26px,7vw,40px);margin-top:calc(clamp(26px,7vw,40px) / -2);background:linear-gradient(180deg,#D4977A,#F2CBB2 20%,#FFF2E8 40%,#F4D0B8 60%,#E3AD90 82%,#C98B6E);box-shadow:0 2px 6px rgba(120,70,40,.18)}
+.band-l{left:0;right:50%}
+.band-r{left:50%;right:0}
+.bow{position:absolute;left:50%;top:50%;width:min(58vw,250px);transform:translate(-50%,-43%);overflow:visible;filter:drop-shadow(0 4px 6px rgba(120,70,40,.25))}
+.bow g{transform-box:fill-box}
+/* Opening timeline (≈8.3s): seal press 0–.25 · flap + seal lift .2–1.4 · push-in 1.1–2.9 (envelope fades 2.1–2.9)
+   · ribboned card holds · bow unties 3.8–5.0 · text 4.8–6.2 · hold · dissolve to the page 7.6–8.3 */
+.cover.opening .seal{animation:seal-press .25s ease-out}
+.cover.opening .env-flap{animation:flap-open 1.2s cubic-bezier(.6,0,.3,1) .2s forwards}
+.cover.opening .env{animation:push-in 1.8s cubic-bezier(.55,0,.25,1) 1.1s forwards,fade-out .8s ease-in 2.1s forwards}
+.cover.opening .invite{animation:card-in 1.8s cubic-bezier(.55,0,.25,1) 1.1s forwards}
+.cover.opening .cover-hint{animation:fade-out .3s ease forwards}
+.cover.opening .env-shade{animation:fade-out .9s ease 1.1s forwards}
+.cover.opening .knot{animation:knot-pop .45s ease-in 3.8s forwards;transform-origin:center}
+.cover.opening .loop-l{animation:loop-l .7s cubic-bezier(.5,0,.75,0) 3.85s forwards;transform-origin:100% 60%}
+.cover.opening .loop-r{animation:loop-r .7s cubic-bezier(.5,0,.75,0) 3.85s forwards;transform-origin:0 60%}
+.cover.opening .tails{animation:tails-drop .6s ease-in 3.85s forwards}
+.cover.opening .band-l{animation:band-l 1s cubic-bezier(.55,0,.8,.3) 4s forwards}
+.cover.opening .band-r{animation:band-r 1s cubic-bezier(.55,0,.8,.3) 4s forwards}
+.cover.opening .card-text>*{animation:text-in .9s ease forwards;animation-delay:calc(4.8s + var(--i) * .18s)}
+.cover.opening.leaving{transition:opacity .7s ease-in;opacity:0}
+@keyframes seal-press{50%{transform:translate(-50%,-50%) translateZ(2px) scale(.92)}}
+@keyframes flap-open{to{transform:rotateX(-180deg)}}
+@keyframes push-in{to{transform:scale(3.4)}}
+@keyframes card-in{to{transform:none}}
 @keyframes fade-out{to{opacity:0}}
-@keyframes show{to{visibility:visible}}
+@keyframes knot-pop{30%{transform:scale(1.15)}to{transform:scale(0);opacity:0}}
+@keyframes loop-l{to{transform:translateX(-30%) rotate(-35deg) scale(.2);opacity:0}}
+@keyframes loop-r{to{transform:translateX(30%) rotate(35deg) scale(.2);opacity:0}}
+@keyframes tails-drop{to{transform:translateY(30%);opacity:0}}
+@keyframes band-l{to{transform:translateX(-105%) skewY(-4deg)}}
+@keyframes band-r{to{transform:translateX(105%) skewY(4deg)}}
+@keyframes text-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .cover.fading{transition:opacity .4s ease;opacity:0}
 
 /* ===== Music button ===== */
@@ -244,20 +276,60 @@ input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;bo
 <body>
 <noscript><p style="padding:24px;text-align:center">Please enable JavaScript to open this invitation.</p></noscript>
 
-<!-- Tap-to-open envelope cover: only thing visible on load; removed from the DOM after opening -->
+<!-- Tap-to-open cover: envelope → ribboned card. Only thing visible on load; removed from the DOM after opening -->
 <div id="cover" class="cover">
-  <div class="cover-head">
-    <p class="cover-names" id="cover-names"></p>
-    <p class="cover-sub" id="cover-sub"></p>
+  <div class="invite" aria-hidden="true">
+    <div class="card-inner">
+      <img class="card-frame" id="card-frame" alt="">
+      <div class="card-text">
+        <p class="card-eyebrow" style="--i:0">Together with their families</p>
+        <p class="card-name" id="card-p1" style="--i:1"></p>
+        <p class="card-amp" style="--i:2">&amp;</p>
+        <p class="card-name" id="card-p2" style="--i:3"></p>
+        <p class="card-date" id="card-date" style="--i:4"></p>
+        <p class="card-venue" id="card-venue" style="--i:5"></p>
+        <p class="card-city" id="card-city" style="--i:6"></p>
+      </div>
+    </div>
+    <div class="ribbon">
+      <span class="band band-l"></span><span class="band band-r"></span>
+      <svg class="bow" viewBox="0 0 200 140" aria-hidden="true">
+        <defs>
+          <linearGradient id="satin" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8B496"/><stop offset=".35" stop-color="#FFF1E6"/><stop offset=".6" stop-color="#F3CBB1"/><stop offset="1" stop-color="#CF9073"/></linearGradient>
+          <linearGradient id="satin-d" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6D6C2"/><stop offset=".5" stop-color="#E2A88A"/><stop offset="1" stop-color="#C4866A"/></linearGradient>
+        </defs>
+        <g class="tails">
+          <path d="M96 70C88 93 75 116 60 139L70 133L79 141C91 119 99 95 104 72Z" fill="url(#satin-d)"/>
+          <path d="M104 70C112 93 125 116 140 139L130 133L121 141C109 119 101 95 96 72Z" fill="url(#satin-d)"/>
+          <path d="M99 76C94 96 86 114 76 132" stroke="#FFF4EC" stroke-opacity=".55" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M101 76C106 96 114 114 124 132" stroke="#FFF4EC" stroke-opacity=".4" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+        <g class="loop-l">
+          <path d="M100 62C80 28 38 8 19 30C5 47 18 72 52 72C72 72 88 68 100 62Z" fill="url(#satin)"/>
+          <path d="M100 62C84 52 56 44 40 50C50 61 74 66 100 62Z" fill="#C88A6C" fill-opacity=".75"/>
+          <path d="M28 31C44 20 66 27 84 44" stroke="#FFF6EF" stroke-opacity=".7" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+        <g class="loop-r">
+          <path d="M100 62C120 28 162 8 181 30C195 47 182 72 148 72C128 72 112 68 100 62Z" fill="url(#satin)"/>
+          <path d="M100 62C116 52 144 44 160 50C150 61 126 66 100 62Z" fill="#C88A6C" fill-opacity=".75"/>
+          <path d="M172 31C156 20 134 27 116 44" stroke="#FFF6EF" stroke-opacity=".6" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </g>
+        <g class="knot">
+          <rect x="88" y="48" width="24" height="28" rx="10" fill="url(#satin)" stroke="#BF8064" stroke-opacity=".45"/>
+          <path d="M93 54C99 58 101 66 98 72M107 54C102 59 101 66 103 71" stroke="#BF8064" stroke-opacity=".4" fill="none"/>
+          <path d="M92 53C96 50 103 50 107 52" stroke="#FFF6EF" stroke-opacity=".8" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </g>
+      </svg>
+    </div>
   </div>
   <div class="env">
     <img class="env-body" id="env-body" alt="A sealed ivory envelope with a gold-edged flap" fetchpriority="high">
-    <div class="env-inside" aria-hidden="true"></div>
-    <div class="env-flap" aria-hidden="true">
-      <div class="flap-face flap-front"><img id="env-flap-img" alt=""></div>
-      <div class="flap-face flap-back"></div>
+    <div class="env-shade" aria-hidden="true"></div>
+    <div class="env-flap">
+      <div class="flap-face flap-front" aria-hidden="true"><img id="env-flap-img" alt=""></div>
+      <div class="flap-face flap-back" aria-hidden="true"></div>
+      <button type="button" class="seal" id="seal" aria-label="Open the invitation"><span id="seal-initials" aria-hidden="true"></span></button>
     </div>
-    <button type="button" class="seal" id="seal" aria-label="Open the invitation"><span id="seal-initials" aria-hidden="true"></span></button>
   </div>
   <p class="cover-hint">Tap the seal to open</p>
 </div>
@@ -518,8 +590,12 @@ function render() {
   if (document.body.contains(cover)) {
     $("#env-body").src = $("#env-flap-img").src = imgSrc("envelope");
     $("#seal-initials").textContent = String(C.monogram).slice(0, 3);
-    $("#cover-names").textContent = couple();
-    $("#cover-sub").textContent = [shortDate, C.venue.city].filter(Boolean).join(" · ");
+    $("#card-frame").src = imgSrc("cover-arch-frame");
+    $("#card-p1").textContent = n.partner1;
+    $("#card-p2").textContent = n.partner2;
+    $("#card-date").textContent = shortDate;
+    $("#card-venue").textContent = C.venue.name;
+    $("#card-city").textContent = C.venue.city;
   }
 
   const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(fullAddress());
@@ -806,7 +882,7 @@ function unlockPage() {
   document.body.classList.add("opened");
   updateMusicBtn();
 }
-const OPEN_MS = 2900, REVEAL_MS = 2200, FADE_MS = 400; // keep in step with the CSS timeline
+const LEAVE_MS = 7600, OPEN_MS = 8300, FADE_MS = 400; // keep in step with the CSS timeline
 let openTimer, revealTimer;
 function finishOpening() {
   clearTimeout(openTimer); clearTimeout(revealTimer);
@@ -821,7 +897,7 @@ function openInvitation() {
   cover.setAttribute("aria-hidden", "true");
   if (reduceMotion()) { cover.classList.add("fading"); openTimer = setTimeout(finishOpening, FADE_MS); return; }
   cover.classList.add("opening");
-  revealTimer = setTimeout(() => document.body.classList.add("opened"), REVEAL_MS); // hero rises as the envelope fades
+  revealTimer = setTimeout(() => { cover.classList.add("leaving"); document.body.classList.add("opened"); }, LEAVE_MS); // card dissolves as the hero rises
   openTimer = setTimeout(finishOpening, OPEN_MS);
 }
 cover.addEventListener("click", openInvitation);
