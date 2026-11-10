@@ -79,7 +79,7 @@ a{color:var(--primary-ink)}
 .seal span{position:relative;width:74%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 40% 34%,#7B8C69,#5A6A4B 62%,#4B5A3E);box-shadow:inset 0 3px 5px rgba(0,0,0,.34),inset 0 -2px 3px rgba(255,255,255,.18);font:600 1.5rem/1 var(--serif);font-size:34cqw;letter-spacing:.01em;padding-top:2%;color:#D9B95C;text-shadow:0 1px 0 rgba(0,0,0,.4),0 -1px 0 rgba(255,236,190,.22)}
 @keyframes seal-pulse{0%,100%{transform:translate(-50%,-50%) translateZ(2px) scale(1)}50%{transform:translate(-50%,-50%) translateZ(2px) scale(1.05)}}
 .cover-hint{position:absolute;z-index:2;left:0;right:0;bottom:calc(max(6svh,24px) + env(safe-area-inset-bottom));margin:0;text-align:center;font:500 .78rem/1.5 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
-/* The card waiting inside: painted arch frame, satin ribbon + bow, text revealed after the bow unties */
+/* The card waiting inside: painted arch frame tied with a satin ribbon; the ribbon unfolds (10 painted stages, crossfaded) before the text appears */
 .invite{position:absolute;inset:0;z-index:0;display:grid;place-items:center;background:#FBF8F0;transform:scale(.82)}
 .card-inner{position:relative;height:min(100%,calc(100vw * 1376 / 768));aspect-ratio:768/1376}
 .card-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
@@ -91,37 +91,38 @@ a{color:var(--primary-ink)}
 .card-date{font:500 .8rem/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;margin-top:.8em!important}
 .card-venue{font:400 clamp(1.05rem,4vw,1.25rem)/1.3 var(--serif)}
 .card-city{font:500 .7rem/1.4 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.ribbon{position:absolute;inset:0;pointer-events:none;--bow:min(64vw,280px);--band:calc(var(--bow) * .115)}
+.ribbon{position:absolute;inset:0;pointer-events:none;--rib:min(100vw,620px);--band:calc(var(--rib) * .095)}
 .band{position:absolute;top:50%;height:var(--band);margin-top:calc(var(--band) / -2);background:linear-gradient(180deg,#D98A5E,#F2B48E 18%,#FFE4CF 40%,#F6C39F 60%,#E9A27A 80%,#CF8157);box-shadow:0 2px 6px rgba(120,70,40,.2)}
 .band-l{left:0;right:50%}
 .band-r{left:50%;right:0}
-.bow{position:absolute;left:50%;top:50%;width:var(--bow);transform:translate(-50%,-29%);filter:drop-shadow(0 5px 7px rgba(120,70,40,.25))}
+.rib{position:absolute;left:50%;top:50%;width:var(--rib);aspect-ratio:1;transform:translate(-50%,-34.2%);-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);filter:drop-shadow(0 5px 7px rgba(120,70,40,.22))}
+.rib img{position:absolute;inset:0;width:100%;height:100%;opacity:0}
+.rib img:first-child{opacity:1}
 
 /* Opening timeline (≈8.3s): seal press 0–.25 · flap + seal lift .2–1.4 · push-in 1.1–2.9 (envelope fades 2.1–2.9)
-   · ribboned card holds · bow unties 3.8–5.0 · text 4.8–6.2 · hold · dissolve to the page 7.6–8.3 */
+   · ribboned card holds · ribbon unfolds 3.8–6.5 (a new stage every .28s, .2s dissolve) · text 6.0–7.9 · hold · dissolve to the page 8.9–9.6 */
 .cover.opening .seal{animation:seal-press .25s ease-out}
 .cover.opening .env-flap{animation:flap-open 1.2s cubic-bezier(.6,0,.3,1) .2s forwards}
 .cover.opening .env{animation:push-in 1.8s cubic-bezier(.55,0,.25,1) 1.1s forwards,fade-out .8s ease-in 2.1s forwards}
 .cover.opening .invite{animation:card-in 1.8s cubic-bezier(.55,0,.25,1) 1.1s forwards}
 .cover.opening .cover-hint{animation:fade-out .3s ease forwards}
 .cover.opening .env-shade{animation:fade-out .9s ease 1.1s forwards}
-.cover.opening .bow{animation:bow-release 1.1s cubic-bezier(.45,0,.3,1) 3.8s forwards}
+.cover.opening .rib img{animation:rib-in .2s ease-in-out forwards,rib-out .2s ease-in-out forwards;animation-delay:calc(3.8s + (var(--k) - 2) * .28s),calc(3.8s + (var(--k) - 1) * .28s)}
+.cover.opening .rib img:first-child{animation:rib-out .2s ease-in-out 3.8s forwards}
 
-
-.cover.opening .band-l{animation:band-l 1.3s cubic-bezier(.65,0,.35,1) 4s forwards}
-.cover.opening .band-r{animation:band-r 1.3s cubic-bezier(.65,0,.35,1) 4s forwards}
-.cover.opening .card-text>*{animation:text-in .9s ease forwards;animation-delay:calc(4.8s + var(--i) * .18s)}
+.cover.opening .band-l{animation:band-l .6s ease-in-out 4.06s forwards}
+.cover.opening .band-r{animation:fade-out .35s ease 3.8s forwards}
+.cover.opening .card-text>*{animation:text-in .9s ease forwards;animation-delay:calc(6s + var(--i) * .18s)}
 .cover.opening.leaving{transition:opacity .7s ease-in;opacity:0}
 @keyframes seal-press{50%{transform:translate(-50%,-50%) translateZ(2px) scale(.92)}}
 @keyframes flap-open{to{transform:rotateX(-180deg)}}
 @keyframes push-in{to{transform:scale(3.4)}}
 @keyframes card-in{to{transform:none}}
 @keyframes fade-out{to{opacity:0}}
-@keyframes bow-release{35%{transform:translate(-50%,-33%) scale(1.03)}to{transform:translate(-50%,-38%) scale(.94);opacity:0;filter:drop-shadow(0 5px 7px rgba(120,70,40,0)) blur(2px)}}
+@keyframes rib-in{from{opacity:0}to{opacity:1}}
+@keyframes rib-out{from{opacity:1}to{opacity:0}}
 
-
-@keyframes band-l{60%{opacity:1}to{transform:translateX(-100%);opacity:0}}
-@keyframes band-r{60%{opacity:1}to{transform:translateX(100%);opacity:0}}
+@keyframes band-l{to{transform:translateX(30%);opacity:0}}
 @keyframes text-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .cover.fading{transition:opacity .4s ease;opacity:0}
 
@@ -290,7 +291,7 @@ input[type=color]{width:56px;height:44px;padding:2px;border:1px solid #CFC5B1;bo
     </div>
     <div class="ribbon">
       <span class="band band-l"></span><span class="band band-r"></span>
-      <img class="bow" src="assets/images/ribbon-bow.png" alt="">
+      <div class="rib"><img src="assets/images/ribbon-01.webp" alt="" style="--k:1"><img src="assets/images/ribbon-02.webp" alt="" style="--k:2"><img src="assets/images/ribbon-03.webp" alt="" style="--k:3"><img src="assets/images/ribbon-04.webp" alt="" style="--k:4"><img src="assets/images/ribbon-05.webp" alt="" style="--k:5"><img src="assets/images/ribbon-06.webp" alt="" style="--k:6"><img src="assets/images/ribbon-07.webp" alt="" style="--k:7"><img src="assets/images/ribbon-08.webp" alt="" style="--k:8"><img src="assets/images/ribbon-09.webp" alt="" style="--k:9"><img src="assets/images/ribbon-10.webp" alt="" style="--k:10"></div>
     </div>
   </div>
   <div class="env">
@@ -853,7 +854,7 @@ function unlockPage() {
   document.body.classList.add("opened");
   updateMusicBtn();
 }
-const LEAVE_MS = 7600, OPEN_MS = 8300, FADE_MS = 400; // keep in step with the CSS timeline
+const LEAVE_MS = 8900, OPEN_MS = 9600, FADE_MS = 400; // keep in step with the CSS timeline
 let openTimer, revealTimer;
 function finishOpening() {
   clearTimeout(openTimer); clearTimeout(revealTimer);

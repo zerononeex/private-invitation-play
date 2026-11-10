@@ -17,4 +17,5 @@ Envelope cover (in addition to the 17):
   seal position in `index.html` are measured on this exact image (hinge y 2.97%, tip x 49.85% / y 66%),
   so a replacement envelope needs those numbers re-measured.
 - `envelope-lining.png` — the patterned liner shown inside the flap and pocket when the envelope opens.
-- `ribbon-bow.png` — peach satin bow (green background removed) tied across the card; it lifts and fades as the ribbon releases.
+- `ribbon-01.webp` … `ribbon-10.webp` — the satin ribbon tied on the card, in 10 stages from tied bow to
+  pulled away (green background removed, same 1:1 canvas so they line up); crossfaded to unfold the bow.
