@@ -13,8 +13,8 @@ icon-sheet.png must be a 4 columns × 3 rows grid with evenly sized cells, in th
 rings, ceremony arch, cocktail, dinner plate / cake, music/dance, dress, suit / hotel, gift, envelope, calendar-heart.
 
 Envelope cover (in addition to the 17):
-- `envelope.png` — portrait envelope (1116×2000) that fills the phone screen on the cover. The flap clip and
-  seal position in `index.html` are traced from this exact image (hinge = image top, flap tip / seal at
-  x 49.82% / y 36.3%), so a replacement envelope needs those numbers re-measured.
-- `envelope-lining.png` — patterned liner on the back of the flap.
-- `ribbon-bow.png` — peach satin bow (green background removed) tied on the card; it unties in three pieces.
+- `envelope.png` — the sealed envelope on the tap-to-open cover. Cropped to the envelope; the flap clip and
+  seal position in `index.html` are measured on this exact image (hinge y 2.97%, tip x 49.85% / y 66%),
+  so a replacement envelope needs those numbers re-measured.
+- `envelope-lining.png` — the patterned liner shown inside the flap and pocket when the envelope opens.
+- `ribbon-bow.png` — peach satin bow (green background removed) tied across the card; it lifts and fades as the ribbon releases.
