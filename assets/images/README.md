@@ -19,3 +19,4 @@ Envelope cover (in addition to the 17):
 - `envelope-lining.png` — the patterned liner shown inside the flap and pocket when the envelope opens.
 - `ribbon-01.webp` … `ribbon-10.webp` — the satin ribbon tied on the card, in 10 stages from tied bow to
   pulled away (green background removed, same 1:1 canvas so they line up); crossfaded to unfold the bow.
+- `ribbon-band.webp` — photographic satin ribbon strip (green removed) used for the band across the card either side of the bow.
